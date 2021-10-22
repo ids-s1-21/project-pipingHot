@@ -1,15 +1,15 @@
 ---
 title: "Project proposal"
-author: "Team name"
+author: "Piping Hot"
 output: github_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
 ```
-
-*For instructions on what each section should include, please see the [project page](https://idsed.digital/assessments/project/#proposal) on the course website. Remove this text when completing your proposal*.
 
 ## 1. Introduction
 
