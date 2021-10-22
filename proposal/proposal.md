@@ -6,7 +6,6 @@ Piping Hot
 library(tidyverse)
 library(broom)
 library(here)
-library(ggridges)
 ```
 
 ## 1. Introduction
@@ -47,7 +46,9 @@ glimpse(stroke_risk)
 
 ## 3. Data analysis plan
 
-Is stroke risk affected by
+We expect to see a higher proportion of stroke with those of a higher
+age bracket, higher bmi, higher glucose level, have hypertension,
+private work type, people who have smoked, and urban.
 
 ``` r
 stroke_risk %>%
@@ -72,9 +73,10 @@ stroke_risk %>%
     ## 3   Male     No 2007
     ## 4   Male    Yes  108
 
-The outcome (response, Y) and predictor (explanatory, X) variables you
-will use to answer your question. The comparison groups you will use, if
-applicable. The statistical method(s) that you believe will be useful in
-answering your question(s). (You can update these later as you work on
-your project.) What results from these specific statistical methods are
-needed to support your hypothesized answer?
+Comparison groups; gender, age, hypertension, heart\_disease,
+ever\_married, work\_type, Residence\_type, avg\_glucose\_level, bmi,
+smoking\_status.
+
+Conditional probability (helps us calculate proportions), mean (helps us
+to compare continuous variables for those who have and haven’t had a
+stroke), IQR (helps us to visualise the spread of the data)
