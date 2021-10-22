@@ -10,7 +10,7 @@ editor_options:
 library(tidyverse)
 library(broom)
 library(here)
-
+library(ggridges)
 ```
 
 ## 1. Introduction
@@ -24,10 +24,31 @@ We got our dataset from the Kaggle website. The data was collected confidentiall
 ```{r}
 stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
 
+stroke_risk <- stroke_risk %>%
+  mutate(stroke = if_else(stroke == "1", "Yes", "No"))
+
 glimpse(stroke_risk)
 ```
 
 ## 3. Data analysis plan
 
+Is stroke risk affected by 
 
+```{r}
+stroke_risk %>%
+  filter(smoking_status != "Unknown") %>%
+  count(smoking_status, stroke) %>%
+  ggplot(aes(x = stroke, y = n, fill = smoking_status)) +
+  geom_col(position = "fill") +
+  scale_fill_viridis_d()
+
+stroke_risk %>%
+  count(gender, stroke) %>%
+  filter(gender != "Other")
+```
+
+The outcome (response, Y) and predictor (explanatory, X) variables you will use to answer your question.
+The comparison groups you will use, if applicable.
+The statistical method(s) that you believe will be useful in answering your question(s). (You can update these later as you work on your project.)
+What results from these specific statistical methods are needed to support your hypothesized answer?
 

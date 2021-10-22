@@ -6,6 +6,7 @@ Piping Hot
 library(tidyverse)
 library(broom)
 library(here)
+library(ggridges)
 ```
 
 ## 1. Introduction
@@ -23,6 +24,9 @@ The 12 variables refer to the attributes of the individuals.
 ``` r
 stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
 
+stroke_risk <- stroke_risk %>%
+  mutate(stroke = if_else(stroke == "1", "Yes", "No"))
+
 glimpse(stroke_risk)
 ```
 
@@ -39,6 +43,38 @@ glimpse(stroke_risk)
     ## $ avg_glucose_level <dbl> 228.69, 202.21, 105.92, 171.23, 174.12, 186.21, 70.0…
     ## $ bmi               <chr> "36.6", "N/A", "32.5", "34.4", "24", "29", "27.4", "…
     ## $ smoking_status    <chr> "formerly smoked", "never smoked", "never smoked", "…
-    ## $ stroke            <int> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+    ## $ stroke            <chr> "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Ye…
 
 ## 3. Data analysis plan
+
+Is stroke risk affected by
+
+``` r
+stroke_risk %>%
+  filter(smoking_status != "Unknown") %>%
+  count(smoking_status, stroke) %>%
+  ggplot(aes(x = stroke, y = n, fill = smoking_status)) +
+  geom_col(position = "fill") +
+  scale_fill_viridis_d()
+```
+
+![](proposal_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+``` r
+stroke_risk %>%
+  count(gender, stroke) %>%
+  filter(gender != "Other")
+```
+
+    ##   gender stroke    n
+    ## 1 Female     No 2853
+    ## 2 Female    Yes  141
+    ## 3   Male     No 2007
+    ## 4   Male    Yes  108
+
+The outcome (response, Y) and predictor (explanatory, X) variables you
+will use to answer your question. The comparison groups you will use, if
+applicable. The statistical method(s) that you believe will be useful in
+answering your question(s). (You can update these later as you work on
+your project.) What results from these specific statistical methods are
+needed to support your hypothesized answer?
