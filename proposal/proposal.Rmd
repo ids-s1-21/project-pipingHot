@@ -23,6 +23,8 @@ We got our dataset from the Kaggle website. The data was collected confidentiall
 
 ```{r}
 stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
+
+glimpse(stroke_risk)
 ```
 
 ## 3. Data analysis plan
