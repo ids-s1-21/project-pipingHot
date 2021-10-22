@@ -9,6 +9,9 @@ library(broom)
 
 ## 1. Introduction
 
+Do factors such as age, hypertension and bmi increase your risk of a
+stroke?
+
 ## 2. Data
 
 ## 3. Data analysis plan
