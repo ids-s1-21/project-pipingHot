@@ -56,7 +56,9 @@ stroke_risk %>%
   count(smoking_status, stroke) %>%
   ggplot(aes(x = stroke, y = n, fill = smoking_status)) +
   geom_col(position = "fill") +
-  scale_fill_viridis_d()
+  scale_fill_viridis_d() +
+  labs(x = "Stroke", y = "Proportion", fill = "Smoking status") +
+  theme_minimal()
 ```
 
 ![](proposal_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
