@@ -50,8 +50,10 @@ This graph shows that the proportion of patients who have had a stroke and smoke
 stroke_risk %>%
   count(gender, stroke) %>%
   filter(gender != "Other")
-
 ```
+
+This shows that the gender is not a large factor in risk of getting a stroke.
+
 
 Comparison groups; gender, age, hypertension, heart_disease, ever_married, work_type, Residence_type, avg_glucose_level, bmi, smoking_status.
 

@@ -80,6 +80,9 @@ stroke_risk %>%
     ## 3   Male     No 2007
     ## 4   Male    Yes  108
 
+This shows that the gender is not a large factor in risk of getting a
+stroke.
+
 Comparison groups; gender, age, hypertension, heart\_disease,
 ever\_married, work\_type, Residence\_type, avg\_glucose\_level, bmi,
 smoking\_status.
