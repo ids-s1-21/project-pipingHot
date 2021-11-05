@@ -63,6 +63,11 @@ stroke_risk %>%
 
 ![](proposal_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
+This graph shows that the proportion of patients who have had a stroke
+and smoked is higher than the proportion of patients who didn’t have a
+stroke and smoked. The opposite is also true for patients who never
+smoked; there is a higher proportion of no stroke who never smoked.
+
 ``` r
 stroke_risk %>%
   count(gender, stroke) %>%
