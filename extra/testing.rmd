@@ -13,6 +13,9 @@ library(broom)
 
 ```{r makeup-artist}
 stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
+stroke_risk <- stroke_risk %>%
+  mutate(bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi)))
+glimpse(stroke_risk)
 ```
 
 ```{r photographer}
