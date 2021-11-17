@@ -21,6 +21,23 @@ stroke_risk <- stroke_risk %>%
     bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi))
   )
 glimpse(stroke_risk)
+
+stroke_risk %>%
+  mutate(
+    stroke = if_else(stroke == 1, TRUE, FALSE),
+    stroke = fct_rev(factor(stroke))
+  ) %>%
+  filter(!is.na(bmi)) %>%
+  ggplot(aes(x = bmi, fill = stroke)) +
+  geom_density(alpha = 0.5) +
+  labs(
+    x = "BMI",
+    y = "Density",
+    title = "Denstiy of strokes compared to BMI",
+    fill = "Stroke"
+  ) +
+  scale_fill_viridis_d() +
+  theme_minimal()
 ```
 
 ```{r the phorographer}

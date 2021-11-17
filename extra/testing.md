@@ -33,3 +33,24 @@ glimpse(stroke_risk)
     ## $ bmi               <dbl> 36.6, NA, 32.5, 34.4, 24.0, 29.0, 27.4, 22.8, NA, 24…
     ## $ smoking_status    <chr> "formerly smoked", "never smoked", "never smoked", "…
     ## $ stroke            <int> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+
+``` r
+stroke_risk %>%
+  mutate(
+    stroke = if_else(stroke == 1, TRUE, FALSE),
+    stroke = fct_rev(factor(stroke))
+  ) %>%
+  filter(!is.na(bmi)) %>%
+  ggplot(aes(x = bmi, fill = stroke)) +
+  geom_density(alpha = 0.5) +
+  labs(
+    x = "BMI",
+    y = "Density",
+    title = "Denstiy of strokes compared to BMI",
+    fill = "Stroke"
+  ) +
+  scale_fill_viridis_d() +
+  theme_minimal()
+```
+
+![](testing_files/figure-gfm/makeup-artist-1.png)<!-- -->
