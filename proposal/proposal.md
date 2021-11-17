@@ -83,9 +83,9 @@ stroke_risk %>%
 This shows that the gender is not a large factor in risk of getting a
 stroke.
 
-Comparison groups; gender, age, hypertension, heart\_disease,
-ever\_married, work\_type, Residence\_type, avg\_glucose\_level, bmi,
-smoking\_status.
+Comparison groups; gender, age, hypertension, heart_disease,
+ever_married, work_type, Residence_type, avg_glucose_level, bmi,
+smoking_status.
 
 Conditional probability (helps us calculate proportions), mean (helps us
 to compare continuous variables for those who have and haven’t had a

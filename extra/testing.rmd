@@ -1,1 +1,25 @@
+---
+title: "Project proposal"
+author: "Piping Hot"
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
 
+```{r load-packages, message = FALSE}
+library(tidyverse)
+library(broom)
+library(here)
+```
+
+```{r alex}
+
+```
+
+```{r anwen}
+
+```
+
+```{r ishan}
+
+```
