@@ -1,7 +1,7 @@
 ---
-title: "Presentation title"
-subtitle: "Presentation subtitle (if any)"
-author: "Team name <br> Names of team members"
+title: "Modelling of Strokes (temp)"
+subtitle: "With respect to health and lifestyle"
+author: "Pipping Hot <br> Ishan, Anwen and Alex"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
@@ -33,9 +33,9 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 # Load your data here
 ```
 
-```{r include=FALSE}
+```{r include=FALSE, echo = FALSE}
 style_xaringan(
-  title_slide_background_image = "img/confetti.jpg"
+  title_slide_background_image = "none"
 )
 ```
 
