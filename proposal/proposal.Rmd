@@ -42,12 +42,18 @@ stroke_risk %>%
   scale_fill_viridis_d() +
   labs(x = "Stroke", y = "Proportion", fill = "Smoking status") +
   theme_minimal()
+```
 
+This graph shows that the proportion of patients who have had a stroke and smoked is higher than the proportion of patients who didn't have a stroke and smoked. The opposite is also true for patients who never smoked; there is a higher proportion of no stroke who never smoked. 
+
+```{r}
 stroke_risk %>%
   count(gender, stroke) %>%
   filter(gender != "Other")
-
 ```
+
+This shows that the gender is not a large factor in risk of getting a stroke.
+
 
 Comparison groups; gender, age, hypertension, heart_disease, ever_married, work_type, Residence_type, avg_glucose_level, bmi, smoking_status.
 
