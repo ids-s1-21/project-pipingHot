@@ -10,13 +10,12 @@ library(broom)
 ``` r
 stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
 stroke_risk <- stroke_risk %>%
-  mutate(bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi)))
-```
-
-    ## Warning in replace_with(out, !condition, false, fmt_args(~false), glue("length
-    ## of {fmt_args(~condition)}")): NAs introduced by coercion
-
-``` r
+  mutate(
+    #hypertension = if_else(hypertension == 1, TRUE, FALSE),
+    #heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
+    #stroke = if_else(stroke == 1, TRUE, FALSE),
+    bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi))
+  )
 glimpse(stroke_risk)
 ```
 
