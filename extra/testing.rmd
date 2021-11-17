@@ -9,17 +9,16 @@ editor_options:
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
-library(here)
 ```
 
-```{r alex}
-
+```{r makeup-artist}
+stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
 ```
 
 ```{r photographer}
 
 ```
 
-```{r ishan}
+```{r the modelling man}
 
 ```

@@ -5,5 +5,8 @@ Piping Hot
 ``` r
 library(tidyverse)
 library(broom)
-library(here)
+```
+
+``` r
+stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
 ```
