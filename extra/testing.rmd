@@ -16,7 +16,7 @@ library(here)
 
 ```
 
-```{r the phorographer}
+```{r photographer}
 
 ```
 
