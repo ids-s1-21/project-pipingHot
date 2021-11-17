@@ -15,10 +15,10 @@ library(broom)
 stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
 ```
 
-```{r anwen}
+```{r the phorographer}
 
 ```
 
-```{r ishan}
+```{r the modelling man}
 
 ```
