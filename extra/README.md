@@ -19,4 +19,4 @@ Minuets of project time.
 - we picked xraingan as our template
 - moved all presentation files to presentation folder
 - picked jobs
-- 
+- listen to Disney (better than opera)

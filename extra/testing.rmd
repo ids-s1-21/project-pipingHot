@@ -1,5 +1,5 @@
 ---
-title: "Project proposal"
+title: "Project tests"
 author: "Piping Hot"
 output: github_document
 editor_options: 
@@ -9,6 +9,30 @@ editor_options:
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
+```
+
+
+
+```{proposal-stuff}
+stroke_risk %>%
+  filter(smoking_status != "Unknown") %>%
+  count(smoking_status, stroke) %>%
+  ggplot(aes(x = stroke, y = n, fill = smoking_status)) +
+  geom_col(position = "fill") +
+  scale_fill_viridis_d() +
+  labs(x = "Stroke", y = "Proportion", fill = "Smoking status") +
+  theme_minimal()
+```
+
+```{propsal-stuff2}
+stroke_risk %>%
+  count(gender, stroke) %>%
+  filter(gender != "Other")
+```
+
+
+```{r makeup-artist}
+stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
 ```
 
 ```{r makeup-artist, warning = FALSE}
@@ -34,12 +58,36 @@ stroke_risk %>%
   ) +
   scale_fill_viridis_d() +
   theme_minimal()
+
 ```
 
-```{r the phorographer}
+```{r photographer}
+ median_age_stroke <- stroke_risk %>%
+  mutate( stroke = if_else(stroke == "1", "Yes", "No")) %>%
+  group_by(stroke) %>%
+  summarise(median_age = median(age))
 
+median_age_stroke %>%
+  ggplot(aes(stroke, median_age, fill = stroke)) +
+  geom_col() +
+  scale_fill_manual(values = c("Purple", "Orange")) +
+  labs(x = "Stroke", y = "Midean Age", title = "The Avrage Age of Patients who have had a Stroke") +
+  theme(legend.position="none") +
+  theme_minimal() 
+  
+  
+  
 ```
 
 ```{r the modelling man}
+stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
+stroke_risk_cleaned <- stroke_risk %>%
+  mutate(
+    #hypertension = if_else(hypertension == 1, TRUE, FALSE),
+    #heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
+    #stroke = if_else(stroke == 1, TRUE, FALSE),
+    bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi))
+  )
+
 
 ```
