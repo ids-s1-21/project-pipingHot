@@ -42,7 +42,10 @@ stroke_risk <- stroke_risk %>%
 
 ```{r include=FALSE, echo = FALSE}
 style_xaringan(
-  title_slide_background_image = "none"
+  title_slide_background_image = "none",
+  text_color = "#FFF",
+  header_color = "#FFF",
+  background_color = "#000"
 )
 ```
 
