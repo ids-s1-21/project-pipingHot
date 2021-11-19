@@ -30,7 +30,14 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 ```
 
 ```{r load-data, include=FALSE}
-# Load your data here
+stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
+stroke_risk <- stroke_risk %>%
+  mutate(
+    #hypertension = if_else(hypertension == 1, TRUE, FALSE),
+    #heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
+    #stroke = if_else(stroke == 1, TRUE, FALSE),
+    bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi))
+  )
 ```
 
 ```{r include=FALSE, echo = FALSE}
@@ -41,23 +48,55 @@ style_xaringan(
 
 class: center, middle
 
-## A statement of the overall goal / research question
+## Do factors such as age, hypertension and BMI increase the risk of a stroke?
 
 ---
 
 class: inverse, center, middle
 
-# Section title
+# Introductory plots
+---
+
+# Plot 1
+
+```{r plot-1, echo = FALSE}
+stroke_risk %>%
+  mutate(stroke = if_else(stroke == 1, "Yes", "No"), stroke = fct_rev(stroke)) %>%
+  ggplot(aes(x = avg_glucose_level, fill = stroke)) +
+  geom_density(alpha = 0.5) +
+  labs(
+    x = "Average Glucose Level",
+    y = "Density",
+    title = "Average glucose level compared to stroke risk",
+    fill = "Stroke"
+  ) +
+  scale_fill_viridis_d() +
+  theme_minimal()
+```
 
 ---
 
-# Hello World
+# Plot 2
 
-- Click the `Knit` button to compile your presentation
+```{r plot-2, echo = FALSE}
+median_age_stroke <- stroke_risk %>%
+  mutate(stroke = if_else(stroke == "1", "Yes", "No"), stroke = fct_rev(stroke)) %>%
+  group_by(stroke) %>%
+  summarise(median_age = median(age))
 
-- Make sure to commit and push all resulting files to your GitHub repo
-
----
+median_age_stroke %>%
+  ggplot(aes(stroke, median_age, fill = stroke)) +
+  geom_col() +
+  scale_fill_manual(values = c("Purple", "Orange")) +
+  labs(
+    x = "Stroke", 
+    y = "Midean Age", 
+    title = "The Average Age of Patients who have had a Stroke",
+    fill = "Stroke"
+  ) +
+  theme(legend.position = "none") +
+  theme_minimal()
+```
 
 class: inverse, middle, center
 
