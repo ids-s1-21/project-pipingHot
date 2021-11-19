@@ -90,7 +90,7 @@ median_age_stroke %>%
   scale_fill_manual(values = c("Purple", "Orange")) +
   labs(
     x = "Stroke", 
-    y = "Midean Age", 
+    y = "Median Age", 
     title = "The Average Age of Patients who have had a Stroke",
     fill = "Stroke"
   ) +
