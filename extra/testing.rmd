@@ -86,6 +86,7 @@ median_age_stroke %>%
 ```{r the modelling man}
 stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
 stroke_risk_cleaned <- stroke_risk %>%
+  filter(gender != "Other") %>%
   mutate(
     #hypertension = if_else(hypertension == 1, TRUE, FALSE),
     #heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
@@ -93,5 +94,32 @@ stroke_risk_cleaned <- stroke_risk %>%
     bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi))
   )
 
+stroke_risk_cleaned %>%
+  group_by(gender) %>%
+  count()
+
+
+logit2prob <- function(logit){
+  odds <- exp(logit)
+  prob <- (odds / (1 + odds)) * 100
+  return(prob)
+}
+
+
+stroke_fit <- logistic_reg() %>%
+  set_engine("glm") %>%
+  fit(factor(avg_glucose_level) ~  bmi, data = stroke_risk_cleaned, family = "binomial")
+glance(stroke_fit)
+
+tidy(stroke_fit)
+estimates <- tidy(stroke_fit) %>%
+  pull(estimate)
+
+logit2prob(estimates[1])
+
+ stroke_risk_cleaned %>%
+  ggplot(aes(x = bmi, y = avg_glucose_level)) +
+  geom_smooth(method = "lm")
+  
 
 ```
