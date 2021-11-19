@@ -30,11 +30,6 @@ stroke_risk %>%
   filter(gender != "Other")
 ```
 
-
-```{r makeup-artist}
-stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
-```
-
 ```{r makeup-artist, warning = FALSE}
 stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
 stroke_risk <- stroke_risk %>%
