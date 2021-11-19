@@ -36,17 +36,13 @@ glimpse(stroke_risk)
 
 ``` r
 stroke_risk %>%
-  mutate(
-    stroke = if_else(stroke == 1, TRUE, FALSE),
-    stroke = fct_rev(factor(stroke))
-  ) %>%
-  filter(!is.na(bmi)) %>%
-  ggplot(aes(x = bmi, fill = stroke)) +
+  mutate(stroke = if_else(stroke == 1, "Yes", "No"), stroke = fct_rev(stroke)) %>%
+  ggplot(aes(x = avg_glucose_level, fill = stroke)) +
   geom_density(alpha = 0.5) +
   labs(
-    x = "BMI",
+    x = "Average Glucose Level",
     y = "Density",
-    title = "Denstiy of strokes compared to BMI",
+    title = "Average glucose level compared to stroke risk",
     fill = "Stroke"
   ) +
   scale_fill_viridis_d() +
