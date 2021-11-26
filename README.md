@@ -35,12 +35,19 @@ Viewed 14th October 2021,
 
 ## References
 
-National Health Service 2022, *Stroke*, NHS, viewed on 17th November
+National Health Service 2022, *Stroke*, viewed on 17th November
 2021, <https://www.nhs.uk/conditions/stroke/>
 
-Centers for disease control and prevention 2021, *About Stroke*, CDC,
+Centers for disease control and prevention 2021, *About Stroke*,
 viewed on the 17th November 2021, <https://www.cdc.gov/stroke/about.htm>
 
 Centers for disease control and prevention 2020, *Conditions that
-Increase the Risk for Stroke*, CDC, viewed on the 17th November 2021,
+Increase the Risk for Stroke*, viewed on the 17th November 2021,
 <https://www.cdc.gov/stroke/conditions.htm>
+
+Diabeties.co.uk 2019, *Blood Sugar Level Ranges*, viewed on the 24th November 2021, <https://www.diabetes.co.uk/diabetes_care/blood-sugar-level-ranges.html>
+
+Diabeties uk, *Diabetes and stroke*, viewed on the 24th November 2021, <https://www.diabetes.org.uk/guide-to-diabetes/complications/stroke>
+
+Stroke Assosiation, *Stroke Risk Factors*, viewed on the 24th November 2021, <https://www.stroke.org.uk/what-is-stroke/are-you-at-risk-of-stroke> 
+
