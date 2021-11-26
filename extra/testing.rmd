@@ -76,7 +76,6 @@ median_age_stroke %>%
   geom_col() +
   scale_fill_manual(values = c("Purple", "Orange")) +
   labs(x = "Stroke", y = "Midean Age", title = "The Avrage Age of Patients who have had a Stroke") +
-  theme(legend.position="none") +
   theme_minimal() 
   
   

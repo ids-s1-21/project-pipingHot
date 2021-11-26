@@ -16,7 +16,15 @@ We got our dataset from the Kaggle website. The data was collected confidentiall
 The 12 variables are; the unique identifier of the patent, their gender,  age, if they have hypertension, heart desiese, are they married, their type of work, where they live average glucose level, their BMI, smoking statuse, and if they have had a stroke. 
 
 Minuets of project time. 
+sesion 1
 - we picked xraingan as our template
 - moved all presentation files to presentation folder
 - picked jobs
 - listen to Disney (better than opera)
+session 2
+-remove other in gender only one instance. 
+- males 5.0 
+- female 4.7
+- married and age.
+- possible correlation to avg_glucose, bmi
+-blood glucose (mg/dl)
