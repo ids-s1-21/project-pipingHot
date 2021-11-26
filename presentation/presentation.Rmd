@@ -61,6 +61,8 @@ class: center, middle
 
 ---
 
+class: center, middle
+
 # Our dataset
 
 ```{r view-dataset}
@@ -74,9 +76,10 @@ class: center, middle
 # Introductory plots
 ---
 
+class: center, middle
+
 # Plot 1
 
-class: center, middle
 
 ```{r plot-1, echo = FALSE}
 stroke_risk %>%
@@ -84,9 +87,9 @@ stroke_risk %>%
   ggplot(aes(x = avg_glucose_level, y = stroke, fill = stroke)) +
   geom_density_ridges(bandwidth = 11.4) +
   labs(
-    x = "Average Glucose Level (Mg/Dl)",
+    x = "Average blood glucose level (Mg/Dl)",
     y = "Stroke",
-    title = "Average glucose level compared to stroke risk",
+    title = "Average blood glucose level compared to stroke risk",
   ) +
   scale_fill_manual(values = c("Purple", "Orange")) +
   theme(
@@ -100,6 +103,8 @@ stroke_risk %>%
 ```
 
 ---
+
+class: center, middle
 
 # Plot 2
 
