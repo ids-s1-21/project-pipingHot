@@ -26,26 +26,6 @@ stroke_risk %>%
 
 ``` r
 stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
-<<<<<<< HEAD
-```
-
-``` r
- median_age_stroke <- stroke_risk %>%
-  mutate( stroke = if_else(stroke == "1", "Yes", "No")) %>%
-  group_by(stroke) %>%
-  summarise(median_age = median(age))
-
-median_age_stroke %>%
-  ggplot(aes(stroke, median_age, fill = stroke)) +
-  geom_col() +
-  scale_fill_manual(values = c("Purple", "Orange")) +
-  labs(x = "Stroke", y = "Midean Age", title = "The Avrage Age of Patients who have had a Stroke") +
-  theme(legend.position="none") +
-  theme_minimal() 
-```
-
-![](testing_files/figure-gfm/photographer-1.png)<!-- -->
-=======
 stroke_risk <- stroke_risk %>%
   mutate(
     #hypertension = if_else(hypertension == 1, TRUE, FALSE),
@@ -73,17 +53,13 @@ glimpse(stroke_risk)
 
 ``` r
 stroke_risk %>%
-  mutate(
-    stroke = if_else(stroke == 1, TRUE, FALSE),
-    stroke = fct_rev(factor(stroke))
-  ) %>%
-  filter(!is.na(bmi)) %>%
-  ggplot(aes(x = bmi, fill = stroke)) +
+  mutate(stroke = if_else(stroke == 1, "Yes", "No"), stroke = fct_rev(stroke)) %>%
+  ggplot(aes(x = avg_glucose_level, fill = stroke)) +
   geom_density(alpha = 0.5) +
   labs(
-    x = "BMI",
+    x = "Average Glucose Level",
     y = "Density",
-    title = "Denstiy of strokes compared to BMI",
+    title = "Average glucose level compared to stroke risk",
     fill = "Stroke"
   ) +
   scale_fill_viridis_d() +
@@ -91,4 +67,34 @@ stroke_risk %>%
 ```
 
 ![](testing_files/figure-gfm/makeup-artist-1.png)<!-- -->
->>>>>>> e9c070636f2bd7273dd3fcd0ca7e80bf773a4a5d
+
+``` r
+ median_age_stroke <- stroke_risk %>%
+  mutate( stroke = if_else(stroke == "1", "Yes", "No")) %>%
+  group_by(stroke) %>%
+  summarise(median_age = median(age))
+
+median_age_stroke %>%
+  ggplot(aes(stroke, median_age, fill = stroke)) +
+  geom_col() +
+  scale_fill_manual(values = c("Purple", "Orange")) +
+  labs(x = "Stroke", y = "Midean Age", title = "The Avrage Age of Patients who have had a Stroke") +
+  theme(legend.position="none") +
+  theme_minimal() 
+```
+
+![](testing_files/figure-gfm/photographer-1.png)<!-- -->
+
+``` r
+stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
+stroke_risk_cleaned <- stroke_risk %>%
+  mutate(
+    #hypertension = if_else(hypertension == 1, TRUE, FALSE),
+    #heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
+    #stroke = if_else(stroke == 1, TRUE, FALSE),
+    bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi))
+  )
+```
+
+    ## Warning in replace_with(out, !condition, false, fmt_args(~false), glue("length
+    ## of {fmt_args(~condition)}")): NAs introduced by coercion
