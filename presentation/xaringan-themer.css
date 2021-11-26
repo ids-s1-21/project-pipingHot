@@ -52,7 +52,7 @@
   --inverse-background-color: #272822;
   --inverse-header-color: #f3f3f3;
   --inverse-link-color: rgb(249, 38, 114);
-  --title-slide-background-color: #272822;
+  --title-slide-background-color: #000;
   --title-slide-text-color: #d6d6d6;
   --header-background-color: #FFF;
   --header-background-text-color: #000;
@@ -96,7 +96,9 @@ h1, h2, h3 {
 }
 .remark-inline-code {
   font-size: var(--code-inline-font-size);
-  color: #000;
+  color: #FFF;
+  background-color: #000;
+  padding: 2px;
 }
 .remark-slide-number {
   color: #272822;
