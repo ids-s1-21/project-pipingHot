@@ -9,6 +9,7 @@ editor_options:
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
+library(janitor)
 ```
 
 
@@ -84,10 +85,8 @@ stroke_risk_cleaned <- stroke_risk %>%
     bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi))
   )
 
-stroke_risk_cleaned %>%
-  group_by(gender) %>%
-  count()
-
+stroke_ds <- stroke_risk_cleaned %>%
+  select(-c(id, ever_married, work_type, Residence_type))
 
 logit2prob <- function(logit){
   odds <- exp(logit)
@@ -96,20 +95,17 @@ logit2prob <- function(logit){
 }
 
 
+set.seed(16)
+
+ # stroke_split <- initial_split(stroke_risk, prop = 0.7) #Splitting 70% for training and 30% testing 
+
 stroke_fit <- logistic_reg() %>%
   set_engine("glm") %>%
-  fit(factor(avg_glucose_level) ~  bmi, data = stroke_risk_cleaned, family = "binomial")
-glance(stroke_fit)
-
-tidy(stroke_fit)
-estimates <- tidy(stroke_fit) %>%
-  pull(estimate)
-
-logit2prob(estimates[1])
-
- stroke_risk_cleaned %>%
-  ggplot(aes(x = bmi, y = avg_glucose_level)) +
-  geom_smooth(method = "lm")
+  fit(factor(stroke) ~ ., data = stroke_ds, family = "binomial") 
   
+  
+tidy(stroke_fit)
+
+
 
 ```
