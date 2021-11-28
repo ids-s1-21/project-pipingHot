@@ -35,7 +35,7 @@ Viewed 14th October 2021,
 
 ## References
 
-National Health Service 2022, *Stroke*, viewed on 17th November
+National Health Service 2021, *Stroke*, viewed on 17th November
 2021, <https://www.nhs.uk/conditions/stroke/>
 
 Centers for disease control and prevention 2021, *About Stroke*,

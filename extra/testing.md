@@ -5,6 +5,7 @@ Piping Hot
 ``` r
 library(tidyverse)
 library(broom)
+library(janitor)
 ```
 
 ``` {proposal-stuff}
@@ -32,7 +33,8 @@ stroke_risk <- stroke_risk %>%
     #heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
     #stroke = if_else(stroke == 1, TRUE, FALSE),
     bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi))
-  )
+  ) %>%
+clean_names()
 glimpse(stroke_risk)
 ```
 
@@ -45,7 +47,7 @@ glimpse(stroke_risk)
     ## $ heart_disease     <int> 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0…
     ## $ ever_married      <chr> "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "No…
     ## $ work_type         <chr> "Private", "Self-employed", "Private", "Private", "S…
-    ## $ Residence_type    <chr> "Urban", "Rural", "Rural", "Urban", "Rural", "Urban"…
+    ## $ residence_type    <chr> "Urban", "Rural", "Rural", "Urban", "Rural", "Urban"…
     ## $ avg_glucose_level <dbl> 228.69, 202.21, 105.92, 171.23, 174.12, 186.21, 70.0…
     ## $ bmi               <dbl> 36.6, NA, 32.5, 34.4, 24.0, 29.0, 27.4, 22.8, NA, 24…
     ## $ smoking_status    <chr> "formerly smoked", "never smoked", "never smoked", "…
@@ -79,22 +81,7 @@ median_age_stroke %>%
   geom_col() +
   scale_fill_manual(values = c("Purple", "Orange")) +
   labs(x = "Stroke", y = "Midean Age", title = "The Avrage Age of Patients who have had a Stroke") +
-  theme(legend.position="none") +
   theme_minimal() 
 ```
 
 ![](testing_files/figure-gfm/photographer-1.png)<!-- -->
-
-``` r
-stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
-stroke_risk_cleaned <- stroke_risk %>%
-  mutate(
-    #hypertension = if_else(hypertension == 1, TRUE, FALSE),
-    #heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
-    #stroke = if_else(stroke == 1, TRUE, FALSE),
-    bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi))
-  )
-```
-
-    ## Warning in replace_with(out, !condition, false, fmt_args(~false), glue("length
-    ## of {fmt_args(~condition)}")): NAs introduced by coercion
