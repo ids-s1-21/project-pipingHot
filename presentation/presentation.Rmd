@@ -40,13 +40,15 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 ```{r load-data, include=FALSE}
 stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
 stroke_risk <- stroke_risk %>%
+  filter(age >= 16) %>%
   mutate(
     #hypertension = if_else(hypertension == 1, TRUE, FALSE),
     #heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
     #stroke = if_else(stroke == 1, TRUE, FALSE),
-    bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi))
+    bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi)),
+    work_type = if_else(work_type == "children", "Never_worked", work_type)
   ) %>%
-  clean_names()
+clean_names()
 ```
 
 ```{r include=FALSE, echo = FALSE}
@@ -60,7 +62,6 @@ style_xaringan(
   text_color = "#FFF",
   header_color = "#FFF",
   background_color = "#000",
-  
   extra_css = list(
     ".r.hljs.remark-code" = list(
       "background-color" = "#000", 

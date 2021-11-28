@@ -40,7 +40,7 @@ stroke_risk <- stroke_risk %>%
     #heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
     #stroke = if_else(stroke == 1, TRUE, FALSE),
     bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi)),
-    work_type = if_else(age == 16 & work_type == "children", "Never_worked", work_type)
+    work_type = if_else(work_type == "children", "Never_worked", work_type)
   ) %>%
 clean_names()
 glimpse(stroke_risk)
