@@ -36,11 +36,16 @@ stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
 stroke_risk <- stroke_risk %>%
   filter(age >= 16) %>%
   mutate(
-    #hypertension = if_else(hypertension == 1, TRUE, FALSE),
-    #heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
-    #stroke = if_else(stroke == 1, TRUE, FALSE),
+    hypertension = if_else(hypertension == 1, TRUE, FALSE),
+    heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
+    stroke = if_else(stroke == 1, TRUE, FALSE),
+    work_type = case_when(
+      work_type == "Never_worked" ~ "Never worked",
+      work_type == "Govt_job" ~ "Govt job",
+      TRUE ~ work_type
+    ),
     bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi)),
-    work_type = if_else(work_type == "children", "Never_worked", work_type)
+    work_type = if_else(work_type == "children", "Never worked", work_type)
   ) %>%
 clean_names()
 glimpse(stroke_risk)
