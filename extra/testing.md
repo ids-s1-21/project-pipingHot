@@ -33,8 +33,12 @@ stroke_risk <- stroke_risk %>%
     #hypertension = if_else(hypertension == 1, TRUE, FALSE),
     #heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
     #stroke = if_else(stroke == 1, TRUE, FALSE),
+<<<<<<< HEAD
+    bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi))
+=======
     bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi)),
     work_type = if_else(work_type == "children", "Never_worked", work_type)
+>>>>>>> 2a10f46d0dc8894c4bcdb4926e339f173daf8558
   ) %>%
 clean_names()
 glimpse(stroke_risk)
