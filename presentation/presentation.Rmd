@@ -1,12 +1,14 @@
 ---
-title: "Modelling of Strokes (temp)"
+title: "Modelling of Strokes"
 subtitle: "With respect to health and lifestyle"
 author: "Pipping Hot <br> Ishan, Anwen and Alex"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
   xaringan::moon_reader:
-    css: xaringan-themer.css
+    css: 
+      - xaringan-themer.css
+      - "https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css" 
     lib_dir: libs
     nature:
       ratio: "16:9"
@@ -25,6 +27,9 @@ library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
 library(ggridges)
+library(janitor)
+library(xaringanExtra)
+#devtools::install_github("gadenbuie/xaringanExtra")
 ```
 
 ```{r setup, include=FALSE}
@@ -35,31 +40,50 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 ```{r load-data, include=FALSE}
 stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
 stroke_risk <- stroke_risk %>%
+  filter(age >= 16) %>%
   mutate(
     #hypertension = if_else(hypertension == 1, TRUE, FALSE),
     #heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
     #stroke = if_else(stroke == 1, TRUE, FALSE),
-    bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi))
-  )
+    bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi)),
+    work_type = if_else(work_type == "children", "Never_worked", work_type)
+  ) %>%
+clean_names()
 ```
 
 ```{r include=FALSE, echo = FALSE}
 style_xaringan(
-  title_slide_background_image = "none",
+  background_image = "fire.gif",
+  background_position = "top right",
+  background_size = "150px 160px",
   title_slide_background_color = "#000",
   code_inline_background_color = "#000",
   code_inline_color = "#FFF",
   text_color = "#FFF",
   header_color = "#FFF",
-  background_color = "#000"
+  background_color = "#000",
+  extra_css = list(
+    ".r.hljs.remark-code" = list(
+      "background-color" = "#000", 
+      "color" = "#FFF",
+      "font-size" = "30px"
+    )
+  )
 )
+use_extra_styles(
+  hover_code_line = TRUE,
+  #mute_unhighlighted_code = TRUE
+)
+use_progress_bar(color = "#0051BA", location = "top")
 ```
 
-class: center, middle
+class: center, middle, animated, slideInRight
 
 ## Do factors such as age, hypertension and BMI increase the risk of a stroke?
 
 ---
+
+class: animated, slideInRight
 
 # Our dataset
 
@@ -69,14 +93,14 @@ glimpse(stroke_risk)
 
 ---
 
-class: center, middle
+class: center, middle, animated, slideInRight
 
 # Introductory plots
 ---
 
-# Plot 1
+class: center, middle, animated, slideInRight
 
-class: center, middle
+# Plot 1
 
 ```{r plot-1, echo = FALSE}
 stroke_risk %>%
@@ -84,9 +108,9 @@ stroke_risk %>%
   ggplot(aes(x = avg_glucose_level, y = stroke, fill = stroke)) +
   geom_density_ridges(bandwidth = 11.4) +
   labs(
-    x = "Average Glucose Level (Mg/Dl)",
+    x = "Average blood glucose level (Mg/Dl)",
     y = "Stroke",
-    title = "Average glucose level compared to stroke risk",
+    title = "Average blood glucose level compared to stroke risk",
   ) +
   scale_fill_manual(values = c("Purple", "Orange")) +
   theme(
@@ -100,6 +124,8 @@ stroke_risk %>%
 ```
 
 ---
+
+class: center, middle, animated, slideInRight
 
 # Plot 2
 

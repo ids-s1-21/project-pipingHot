@@ -75,6 +75,9 @@ h1, h2, h3 {
 .remark-slide-content {
   background-color: var(--background-color);
   font-size: 1rem;
+  background-image: url(fire.gif);
+  background-size: 150px 160px;
+  background-position: top right;
   padding: 16px 64px 16px 64px;
   width: 100%;
   height: 100%;
@@ -137,8 +140,6 @@ a, a > code {
 }
 .title-slide {
   background-color: var(--title-slide-background-color);
-  background-image: url("none");
-  background-size: cover;
 }
 .title-slide .remark-slide-number {
   display: none;
@@ -241,3 +242,11 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 }
 
 
+
+
+/* Extra CSS */
+.r.hljs.remark-code {
+  background-color: #000;
+  color: #FFF;
+  font-size: 30px;
+}

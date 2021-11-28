@@ -28,17 +28,23 @@ stroke_risk %>%
 ``` r
 stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
 stroke_risk <- stroke_risk %>%
+  filter(age >= 16) %>%
   mutate(
     #hypertension = if_else(hypertension == 1, TRUE, FALSE),
     #heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
     #stroke = if_else(stroke == 1, TRUE, FALSE),
+<<<<<<< HEAD
     bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi))
+=======
+    bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi)),
+    work_type = if_else(work_type == "children", "Never_worked", work_type)
+>>>>>>> 2a10f46d0dc8894c4bcdb4926e339f173daf8558
   ) %>%
 clean_names()
 glimpse(stroke_risk)
 ```
 
-    ## Rows: 5,110
+    ## Rows: 4,366
     ## Columns: 12
     ## $ id                <int> 9046, 51676, 31112, 60182, 1665, 56669, 53882, 10434…
     ## $ gender            <chr> "Male", "Female", "Male", "Female", "Female", "Male"…
