@@ -38,13 +38,14 @@ logit2prob <- function(logit){
 
 set.seed(16)
 
-stroke_split <- initial_split(stroke_risk, prop = 0.7) #Splitting 70% for training and 30% testing 
+stroke_split <- initial_split(stroke_risk, prop = 0.8) #Splitting 70% for training and 30% testing 
 
 train_data <- training(stroke_split)
 test_data  <- testing(stroke_split)
 
 stroke_rec <- recipe(stroke  ~ ., data = train_data) %>%
-  step_rm(gender, work_type, ever_married, id, smoking_status, heart_disease) %>%
+  #step_rm(work_type, ever_married, id, smoking_status) %>%
+  step_rm(id, ever_married, work_type, smoking_status, residence_type) %>%
   step_dummy(all_nominal(), -all_outcomes()) %>%
   step_zv(all_predictors())
 
@@ -67,55 +68,22 @@ stroke_pred %>%
     truth = stroke,
     .pred_1,
     event_level = "second"
-  )
+  ) 
 
-# stroke_fit_gender <- logistic_reg() %>%
-#   set_engine("glm") %>%
-#   fit(factor(stroke) ~ hypertension +
-#                        heart_disease +
-#                        age +
-#                        avg_glucose_level +
-#                        bmi +
-#                        gender , data = stroke_risk, family = "binomial")
-# 
-# stroke_fit_work_type <- logistic_reg() %>%
-#   set_engine("glm") %>%
-#   fit(factor(stroke) ~ hypertension +
-#                        heart_disease +
-#                        age +
-#                        avg_glucose_level +
-#                        bmi +
-#                        work_type , data = stroke_risk, family = "binomial") 
-# 
-# stroke_fit_residence_type <- logistic_reg() %>%
-#   set_engine("glm") %>%
-#   fit(factor(stroke) ~ hypertension +
-#                        heart_disease +
-#                        age +
-#                        avg_glucose_level +
-#                        bmi +
-#                        residence_type , data = stroke_risk, family = "binomial") 
-# 
-# stroke_fit_smoking_type <- logistic_reg() %>%
-#   set_engine("glm") %>%
-#   fit(factor(stroke) ~ hypertension +
-#                        heart_disease +
-#                        age +
-#                        avg_glucose_level +
-#                        bmi +
-#                        smoking_status , data = stroke_risk, family = "binomial") 
-# 
-# stroke_fit_married <- logistic_reg() %>%
-#   set_engine("glm") %>%
-#   fit(factor(stroke) ~ hypertension +
-#                        heart_disease +
-#                        age +
-#                        avg_glucose_level +
-#                        bmi +
-#                        ever_married , data = stroke_risk, family = "binomial") 
-# 
-# 
-# models <- list(stroke_fit_base, stroke_fit_gender, stroke_fit_married, stroke_fit_residence_type, stroke_fit_smoking_type, stroke_fit_work_type)
+
+cutoff_prob <- 0.2
+stroke_pred %>%
+  mutate(
+    stroke      = if_else(stroke == 1, "Person has had a stroke", "Person has not had a stroke"),
+    stroke_pred = if_else(.pred_1 > cutoff_prob, "It is predicted that the person has had a stroke ", "It is predicted that the person has not had a stroke")
+    ) %>%
+  count(stroke_pred, stroke) %>%
+  pivot_wider(names_from = stroke, values_from = n) %>%
+  kable(col.names = c("", "Person has had a stroke", "Person has not had a stroke"))
+
+# 32.5% sensitivity, 96.6% for specificity 
+stroke_pred %>%                
+  accuracy(truth = stroke, stroke_pred)
 
 # AIC_determiner <- function(x) 
 # {
