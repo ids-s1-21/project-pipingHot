@@ -10,23 +10,24 @@ editor_options:
 library(tidyverse)
 library(broom)
 library(janitor)
+library(AICcmodavg)
 ```
 
 
 ```{r the modelling man}
 stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
+
 stroke_risk <- stroke_risk %>%
+  filter(age >= 16, gender != "Other") %>%
   mutate(
-    #hypertension = if_else(hypertension == 1, TRUE, FALSE),
-    #heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
-    #stroke = if_else(stroke == 1, TRUE, FALSE),
-    bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi))
+    bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi)),
+    work_type = if_else(age == 16 & work_type == "children", "Never_worked", work_type)
   ) %>%
 clean_names()
-glimpse(stroke_risk)
 
-stroke_ds <- stroke_risk %>%
-  select(-c(id, ever_married, work_type, residence_type))
+stroke_risk <- stroke_risk %>%
+    filter(!(is.na(bmi))) %>%
+    mutate(stroke  = as.factor(stroke)) 
 
 logit2prob <- function(logit){
   odds <- exp(logit)
@@ -37,15 +38,92 @@ logit2prob <- function(logit){
 
 set.seed(16)
 
- # stroke_split <- initial_split(stroke_risk, prop = 0.7) #Splitting 70% for training and 30% testing 
+stroke_split <- initial_split(stroke_risk, prop = 0.7) #Splitting 70% for training and 30% testing 
 
-stroke_fit <- logistic_reg() %>%
-  set_engine("glm") %>%
-  fit(factor(stroke) ~ ., data = stroke_ds, family = "binomial") %>%
-  tidy()
+train_data <- training(stroke_split)
+test_data  <- testing(stroke_split)
 
-tibble::glimpse(stroke_fit)$adj.r.squared
+stroke_rec <- recipe(stroke  ~ ., data = train_data) %>%
+  step_rm(gender, work_type, ever_married, id, smoking_status, heart_disease) %>%
+  step_dummy(all_nominal(), -all_outcomes()) %>%
+  step_zv(all_predictors())
+
+stroke_fit_base <- logistic_reg() %>%
+  set_engine("glm")
 
 
+stroke_wflow <- workflow() %>%
+  add_model(stroke_fit_base) %>%
+  add_recipe(stroke_rec)
+
+stroke_fit <- stroke_wflow %>%
+  fit(data = train_data)
+
+stroke_pred <- predict(stroke_fit, test_data, type = "prob") %>% 
+  bind_cols(test_data %>% select(stroke))
+
+stroke_pred %>%
+  roc_auc(
+    truth = stroke,
+    .pred_1,
+    event_level = "second"
+  )
+
+# stroke_fit_gender <- logistic_reg() %>%
+#   set_engine("glm") %>%
+#   fit(factor(stroke) ~ hypertension +
+#                        heart_disease +
+#                        age +
+#                        avg_glucose_level +
+#                        bmi +
+#                        gender , data = stroke_risk, family = "binomial")
+# 
+# stroke_fit_work_type <- logistic_reg() %>%
+#   set_engine("glm") %>%
+#   fit(factor(stroke) ~ hypertension +
+#                        heart_disease +
+#                        age +
+#                        avg_glucose_level +
+#                        bmi +
+#                        work_type , data = stroke_risk, family = "binomial") 
+# 
+# stroke_fit_residence_type <- logistic_reg() %>%
+#   set_engine("glm") %>%
+#   fit(factor(stroke) ~ hypertension +
+#                        heart_disease +
+#                        age +
+#                        avg_glucose_level +
+#                        bmi +
+#                        residence_type , data = stroke_risk, family = "binomial") 
+# 
+# stroke_fit_smoking_type <- logistic_reg() %>%
+#   set_engine("glm") %>%
+#   fit(factor(stroke) ~ hypertension +
+#                        heart_disease +
+#                        age +
+#                        avg_glucose_level +
+#                        bmi +
+#                        smoking_status , data = stroke_risk, family = "binomial") 
+# 
+# stroke_fit_married <- logistic_reg() %>%
+#   set_engine("glm") %>%
+#   fit(factor(stroke) ~ hypertension +
+#                        heart_disease +
+#                        age +
+#                        avg_glucose_level +
+#                        bmi +
+#                        ever_married , data = stroke_risk, family = "binomial") 
+# 
+# 
+# models <- list(stroke_fit_base, stroke_fit_gender, stroke_fit_married, stroke_fit_residence_type, stroke_fit_smoking_type, stroke_fit_work_type)
+
+# AIC_determiner <- function(x) 
+# {
+#   glance(x)$AIC 
+# }
+# 
+AIC_determiner(stroke_fit_base)
+
+# map(models,AIC_determiner)
 ```
 
