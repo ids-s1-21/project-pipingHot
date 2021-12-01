@@ -31,24 +31,27 @@ On this density graph the two ridges peak into different places. Firstly, they p
 
 The average age of the individuals who had a stroke is 71 years old but the average age of those who did not have a stroke id 22 years younger than those who did at 49 years old. This finding is consistent with the known and proven link between increased age and a higher stroke risk. 
 
+The Model 
+We expected a high BMI and if they had Hypertantion to increase stroke risk and we found that. As our model is logistic, we can’t give exact figures, but we can say that increased age increases risk the most and having hypertension increases risk. We used AIC (Akaike Information Criterion) to work out which variables we needed. 
 
-Write-up of your project and findings go here. Think of this as the text
-of your presentation. The length should be roughly 5 minutes when read
-out loud. Although pacing varies, a 5-minute speech is roughly 750
-words. To use the word count addin, select the text you want to count
-the words of (probably this is the Summary section of this document, go
-to Addins, and select the `Word count` addin). This addin counts words
-using two different algorithms, but the results should be similar and as
-long as you’re in the ballpark of 750 words, you’re good! The addin will
-ignore code chunks and only count the words in prose.
+EVALUATION 
 
-You can also load your data here and present any analysis results /
-plots, but I strongly urge you to keep that to a minimum (maybe only the
-most important graphic, if you have one you can choose). And make sure
-to hide your code with `echo = FALSE` unless the point you are trying to
-make is about the code itself. Your results with proper output and
-graphics go in your presentation, this space is for a brief summary of
-your project.
+Limitations on the Dataset: 
+•	Don’t know medication, (anticoagulants, aspirin blood thinning drugs, combined contraceptive pill). 
+•	BMI is not an accurate reflection of a person’s health, especially cholesterol levels (high cholesterol is proven to increase risk of a stroke). 
+•	We don’t know other health conditions that can increase risk e.g. sickle cell disease.
+•	We don’t have data about physical activity. 
+•	Alcohol consumption.
+•	Ethnicity.
+•	Family history.
+•	Second-hand smoking. 
+
+We were able to confirm our hypothesis about a link between age and stroke risk. This is explained by the fact that as age increases, people’s arteries become narrower and the walls become harder which increases the risk of them becoming blocked and this causes strokes. Therefore, we can confirm that age is a factor in stroke risk. 
+Since we see a slight link found in our data set between high blood glucose and stroke risk which also confirms our hypothesis and is accurate to what is known outside our dataset.  High blood glucose levels often cause Diabetes which increases risk of cardiovascular disease which significantly increases risk of strokes (Diabetes UK).
+With our model we were able to confirm that hypertension did increased risk, but we were wrong on BMI increasing risk, age is a bigger factor. The model is not good at predicting if people will have a stroke because the sample size is far too small to make accurate predictions. We think it’s better if our model has a higher sensitivity which reduced the number of false negatives (people being told that they won’t have a stroke when they will) instead of focusing on specificity that reduced false positives (those who are predicted to have a stroke but will not have one) because in a real-world application, false positives would at best cause panic whereas false negatives will cause people to be less aware of the risks. We are aware that having false positives is bad because we don’t want to cause people panic but our data on those who had a stroke is too small, so we had to decide on what we prioritize.  We are also aware that by doing this, it will decrease the accuracy but the results align with our goal of detecting strokes.  
+
+
+
 
 ## Presentation
 
