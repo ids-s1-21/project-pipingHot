@@ -17,19 +17,22 @@ library(AICcmodavg)
 ```{r the modelling man}
 stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
 
-stroke_risk <- stroke_risk %>%
+stroke_risk <- stroke_risk %>%                          #Cleanup by Alex
   filter(age >= 16, gender != "Other") %>%
   mutate(
-    bmi = if_else(bmi == "N/A", NA_real_, as.numeric(bmi)),
-    work_type = if_else(age == 16 & work_type == "children", "Never_worked", work_type)
+    bmi = if_else(bmi == "N/A", 
+                  NA_real_, as.numeric(bmi)),
+    work_type = if_else(age == 16 & work_type == "children", 
+                        "Never_worked", 
+                        work_type)
   ) %>%
 clean_names()
 
-stroke_risk <- stroke_risk %>%
+stroke_risk <- stroke_risk %>%                         #Cleanup by Ishan
     filter(!(is.na(bmi))) %>%
     mutate(stroke  = as.factor(stroke)) 
 
-logit2prob <- function(logit){
+logit2prob <- function(logit){                         #Function to get probability for a logsitic reg
   odds <- exp(logit)
   prob <- (odds / (1 + odds)) * 100
   return(prob)
@@ -38,14 +41,13 @@ logit2prob <- function(logit){
 
 set.seed(16)
 
-stroke_split <- initial_split(stroke_risk, prop = 0.8) #Splitting 70% for training and 30% testing 
+stroke_split <- initial_split(stroke_risk, prop = 0.8) #Splitting 80% for training and 20% testing 
 
 train_data <- training(stroke_split)
 test_data  <- testing(stroke_split)
 
 stroke_rec <- recipe(stroke  ~ ., data = train_data) %>%
-  #step_rm(work_type, ever_married, id, smoking_status) %>%
-  step_rm(id, ever_married, work_type, smoking_status, residence_type) %>%
+  step_rm(id, work_type, residence_type, smoking_status, ever_married, gender) %>%
   step_dummy(all_nominal(), -all_outcomes()) %>%
   step_zv(all_predictors())
 
@@ -63,6 +65,11 @@ stroke_fit <- stroke_wflow %>%
 stroke_pred <- predict(stroke_fit, test_data, type = "prob") %>% 
   bind_cols(test_data %>% select(stroke))
 
+stroke_pred_accuracy <- stroke_pred %>%  #for accuracy 
+  mutate(
+    stroke_pred = if_else(.pred_1 > cutoff_prob, 1, 0)
+    )
+
 stroke_pred %>%
   roc_auc(
     truth = stroke,
@@ -70,20 +77,41 @@ stroke_pred %>%
     event_level = "second"
   ) 
 
+stroke_pred %>%
+  roc_curve(
+    truth = stroke,
+    .pred_1,
+    event_level = "second"
+  ) %>%
+  autoplot()
 
-cutoff_prob <- 0.2
+
+cutoff_prob <- 0.1
 stroke_pred %>%
   mutate(
-    stroke      = if_else(stroke == 1, "Person has had a stroke", "Person has not had a stroke"),
-    stroke_pred = if_else(.pred_1 > cutoff_prob, "It is predicted that the person has had a stroke ", "It is predicted that the person has not had a stroke")
+    stroke      = if_else(stroke == 1, 
+                          "Person has had a stroke", 
+                          "Person has not had a stroke"),
+    stroke_pred = if_else(.pred_1 > cutoff_prob, 
+                          "It is predicted that the person has had a stroke ", 
+                          "It is predicted that the person has not had a stroke")
     ) %>%
   count(stroke_pred, stroke) %>%
   pivot_wider(names_from = stroke, values_from = n) %>%
   kable(col.names = c("", "Person has had a stroke", "Person has not had a stroke"))
-
 # 32.5% sensitivity, 96.6% for specificity 
-stroke_pred %>%                
-  accuracy(truth = stroke, stroke_pred)
+
+
+stroke_pred_accuracy %>%                
+  accuracy(truth = stroke, factor(stroke_pred))
+
+#93.5% accuracy 
+
+
+folds <- vfold_cv(train_data, v = 10)   #for cross-validation
+
+stroke_fit_rs <- stroke_wflow %>%
+  fit_resamples(folds)
 
 # AIC_determiner <- function(x) 
 # {
