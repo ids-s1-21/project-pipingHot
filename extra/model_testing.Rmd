@@ -47,7 +47,7 @@ train_data <- training(stroke_split)
 test_data  <- testing(stroke_split)
 
 stroke_rec <- recipe(stroke  ~ ., data = train_data) %>%
-  step_rm(id, work_type, residence_type, smoking_status, ever_married, gender) %>%
+  step_rm(id, work_type, residence_type, smoking_status, ever_married) %>%
   step_dummy(all_nominal(), -all_outcomes()) %>%
   step_zv(all_predictors())
 
@@ -99,13 +99,13 @@ stroke_pred %>%
   count(stroke_pred, stroke) %>%
   pivot_wider(names_from = stroke, values_from = n) %>%
   kable(col.names = c("", "Person has had a stroke", "Person has not had a stroke"))
-# 32.5% sensitivity, 96.6% for specificity 
+#62.5% sensitivity, 83.9% for specificity (to one d.p)
 
 
 stroke_pred_accuracy %>%                
   accuracy(truth = stroke, factor(stroke_pred))
 
-#93.5% accuracy 
+#82.9% accuracy 
 
 
 folds <- vfold_cv(train_data, v = 10)   #for cross-validation
