@@ -38,14 +38,14 @@ We expected a high BMI and if they had Hypertantion to increase stroke risk and 
 EVALUATION 
 
 Limitations on the Dataset: 
-  -Don’t know medication, (anticoagulants, aspirin blood thinning drugs, combined contraceptive pill). 
-  -BMI is not an accurate reflection of a person’s health, especially cholesterol levels (high cholesterol is proven to increase risk of a stroke). 
-  -We don’t know other health conditions that can increase risk e.g. sickle cell disease.
-  -We don’t have data about physical activity. 
-  -Alcohol consumption.
-  -Ethnicity.
-  -Family history.
-  -Second-hand smoking. 
+  + Don’t know medication, (anticoagulants, aspirin blood thinning drugs, combined contraceptive pill). 
+  + BMI is not an accurate reflection of a person’s health, especially cholesterol levels (high cholesterol is proven to increase risk of a stroke). 
+  + We don’t know other health conditions that can increase risk e.g. sickle cell disease.
+  + We don’t have data about physical activity. 
+  + Alcohol consumption.
+  + Ethnicity.
+  + Family history.
+  + Second-hand smoking. 
 
 We were able to confirm our hypothesis about a link between age and stroke risk. This is explained by the fact that as age increases, people’s arteries become narrower and the walls become harder which increases the risk of them becoming blocked and this causes strokes. Therefore, we can confirm that age is a factor in stroke risk. 
 Since we see a slight link found in our data set between high blood glucose and stroke risk which also confirms our hypothesis and is accurate to what is known outside our dataset.  High blood glucose levels often cause Diabetes which increases risk of cardiovascular disease which significantly increases risk of strokes (Diabetes UK).
