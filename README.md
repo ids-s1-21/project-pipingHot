@@ -31,9 +31,23 @@ On this density graph the two ridges peak into different places. Firstly, they p
 
 The average age of the individuals who had a stroke is 71 years old but the average age of those who did not have a stroke id 22 years younger than those who did at 49 years old. This finding is consistent with the known and proven link between increased age and a higher stroke risk. 
 
-"The Model"
+THE MODLE
 
 We expected a high BMI and if they had Hypertantion to increase stroke risk and we found that. As our model is logistic, we can’t give exact figures, but we can say that increased age increases risk the most and having hypertension increases risk. 
+
+the base uses the variables: age, hypertention, heard desies, gender, bmi and avrage clucose level.
+
+|        Model          |  AIC |
+|-----------------------|------|
+| Base                  | 1108 |
+| Base & Worktype       | 1110 |
+| Base & Residence Type | 1109 |
+| Base & Smoking Stsus  | 1110 |
+| Base & Ever Married   | 1110 |
+| Base witout Gender    | 1106 |
+
+
+
 
 EVALUATION 
 
