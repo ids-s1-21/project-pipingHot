@@ -55,8 +55,8 @@ We did not remove gender despite the AIC being more preferable because by removi
 
 This givs us sensitivity of 62.5% and a specificity of 83.9% (figres given to 1 decimal place). 
 
-The accuracy is 82.9%, this means that 82.9% of the time it will correctly pedict weither the person has had a stroke. The AUC is 81.6% which is good becasue it is high. We also did cross vaidation to avoid over fitting. We did 10 folds.
-
+The accuracy is 82.9%. The AUC is 81.6% which is good becasue it is high. We also did cross vaidation to avoid over fitting. We did 10 folds.
+** talk about accuracy being limited to test data. 
 
 
 EVALUATION 
