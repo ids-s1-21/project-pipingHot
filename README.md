@@ -31,11 +31,11 @@ On this density graph the two ridges peak into different places. Firstly, they p
 
 The average age of the individuals who had a stroke is 71 years old but the average age of those who did not have a stroke id 22 years younger than those who did at 49 years old. This finding is consistent with the known and proven link between increased age and a higher stroke risk. 
 
-THE MODLE
+THE MODEL
 
 We expected a high BMI and if they had Hypertantion to increase stroke risk and we found that. As our model is logistic, we can’t give exact figures, but we can say that increased age increases risk the most and having hypertension increases risk. 
 
-the base uses the variables: age, hypertention, heard desies, gender, bmi and avrage clucose level.
+the base uses the variables: age, hypertention, heart desies, gender, BMI and avrage clucose level. AIC (Akaike INfomation Cirterion) helps decied the least amout of variables needed to explain the gratets amout of variation - a lower AIC value the more preferable the model. Since the AIC peanalises the model with more variables but explains the same amout of variation. 
 
 |        Model          |  AIC |
 |-----------------------|------|
@@ -46,6 +46,16 @@ the base uses the variables: age, hypertention, heard desies, gender, bmi and av
 | Base & Ever Married   | 1110 |
 | Base witout Gender    | 1106 |
 
+We did not remove gender despite the AIC being more preferable because by removing gender the sensitivity of our model falling by 32.5%, which lead to the increse in false negative rate by the same amout.  
+
+|                               | Did have a stroke | Did not have a stroke |
+|-------------------------------|-------------------|-----------------------|
+|Predicted to have a stroke     |        25         |          128          |
+|Predicted to not have a stroke |        15         |          669          |
+
+This givs us sensitivity of 62.5% and a specificity of 83.9% (figres given to 1 decimal place). 
+
+The accuracy is 82.9%, this means that 82.9% of the time it will correctly pedict weither the person has had a stroke. The AUC is 81.6% which is good becasue it is high. We also did cross vaidation to avoid over fitting. We did 10 folds.
 
 
 
