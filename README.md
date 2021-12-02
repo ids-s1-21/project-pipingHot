@@ -36,7 +36,7 @@ On this density graph the two ridges peak into different places. Firstly, they p
 	
 **“The Average Age of Patients who have had a Stroke”**
 
-The average age of the individuals who had a stroke is 71 years old but the average age of those who did not have a stroke id 22 years younger than those who did at 49 years old. This finding is consistent with the known and proven link between increased age and a higher stroke risk. 
+The average age of the individuals who had a stroke is 71 years old but the average age of those who did not have a stroke is 49 years old (a 22 year difference!). This finding is consistent with the known and proven link between increased age and a higher stroke risk. 
 
 ## THE MODEL 
 
