@@ -4,7 +4,7 @@ by pipingHot🔥
 
 ## Summary
 
-**DISCLAIMER: WE ARE NOT MEDICAL PROFESSIONALS!!!**
+##**DISCLAIMER: WE ARE NOT MEDICAL PROFESSIONALS!!!**
 
 Do factors such as age, blood glucose levels, gender, hypertension, BMI and heart disease increase the risk of a stroke? We aim to see if these factors have any effect on stroke risk. 
 We got the dataset from the Kaggle website. The data was collected confidentially because it concerns health of real people so the details about its collection have not been published. Each case is a different individual. There are 12 variables ([See data dictionary](https://github.com/ids-s1-21/project-pipingHot/tree/main/data)). 
