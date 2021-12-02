@@ -40,20 +40,20 @@ The average age of the individuals who had a stroke is 71 years old but the aver
 
 ## THE MODEL 
 
-We expected a high BMI and having hypertention to increase stroke risk the most. As our model is logistic, we can’t give exact figures, but we found that age and hypertension increase stroke risk the most. 
+We expected a high BMI and having hypertension to increase stroke risk the most. As our model is logistic, we can’t give exact figures, but we found that age and hypertension increase stroke risk the most. 
 
-The base model uses the variables: age, hypertention, heart desies, gender, BMI and average glucose level. AIC (Akaike Infomation Criterion) helps decide the least amount of variables needed to explain the greatest amout of variation - the lower AIC value the more preferable the model. Since the AIC penalises the model with more variables but explains the same amount of variation. 
+The base model uses the variables: age, hypertension, heart disease, gender, BMI and average glucose level. AIC (Akaike Information Criterion) helps decide the least amount of variables needed to explain the greatest amount of variation - the lower AIC value the more preferable the model. Since the AIC penalises the model with more variables but explains the same amount of variation. 
 
 |        Model          |  AIC |
 |-----------------------|------|
 | Base                  | 1108 |
-| Base & Worktype       | 1110 |
+| Base & Work type      | 1110 |
 | Base & Residence Type | 1109 |
 | Base & Smoking Status | 1110 |
 | Base & Ever Married   | 1110 |
 | Base without Gender   | 1106 |
 
-We did not remove gender despite the AIC being more preferable because by removing gender the sensitivity of our model fell by 32.5%, which led to the increase in the false negative rate by the same amount.  
+We did not remove gender despite the AIC being preferable because by removing gender the sensitivity of our model fell by 32.5%, which led to the increase in the false negative rate by the same amount.  
 
 |                               | Did have a stroke | Did not have a stroke |
 |-------------------------------|-------------------|-----------------------|
@@ -62,7 +62,7 @@ We did not remove gender despite the AIC being more preferable because by removi
 
 This gives us the sensitivity of the model as 62.5% and a specificity of 83.9%.[^5]  
 
-The accuracy of the model is 82.9% - which basically measures how well our model identified people who had a stroke and who did not.[^6] The AUC is 81.6% which is good because the model is better at distingishing between people who have had a stroke and those who have not. We also did a 10 fold cross validation to avoid over fitting, from which we got the average accuracy of our model as 95% and average AUC as 82.6%.
+The accuracy of the model is 82.9% - which basically measures how well our model identified people who had a stroke and who did not.[^6] The AUC is 81.6% which is good because the model is better at distinguishing between people who have had a stroke and those who have not. We also did a 10 fold cross validation to avoid over fitting, from which we got the average accuracy of our model as 95% and average AUC as 82.6%.
 
 
 [^5]: All figures given to 1 decimal place
@@ -72,14 +72,14 @@ The accuracy of the model is 82.9% - which basically measures how well our model
 ## EVALUATION 
 
 Limitations on the Dataset: 
-  + Don’t know medication, (anticoagulants, aspirin, blood thinning drugs, combined contraceptive pill, etc). Blood thining drugs can reduce risk of colts forming, this reduces stroke risk[^9]. The Combined Pill can couse high blood presser and increse risk of blood clots[^10]. 
+  + Don’t know medication, (anticoagulants, aspirin, blood thinning drugs, combined contraceptive pill, etc). Blood thinning drugs can reduce risk of colts forming, this reduces stroke risk[^9]. The Combined Pill can cause high blood presser and increase risk of blood clots[^10]. 
   + BMI is not an accurate reflection of a person’s health, especially **cholesterol levels** (high cholesterol is proven to increase risk of a stroke[^11]). 
   + We don’t know other health conditions that can increase risk e.g. sickle cell disease[^12].
-  + We don’t have data about physical activity. Regular exersise can reduce cholesterol levels and keep blood pressure at a normal level[^13].  
-  + Alcohol consumption. Exessive alcohol consumption can increase blood pressure[^14].
-  + Ethnicity. some ethnicitieas are at a higher risk of having a stroke partly due to haveing a higher risk of diabities. Also Sickle cell diseas (a desies which effects the red blood cells and increases risk of stroke) mostly effects people of African, Asian, Caribbean and Mediterranean origin[^15]. 
-  + Family history. it is common st see higher risk of stroke in people who have has a family member who also had a stroke.
-  + Second-hand smoking. Even if you do not smoke and you are aound people who smoke, you are still inhaling the smoke and so geting similar long term effects as a smoker. Stroke risk is increased by sencond hand smoking by about 20-30%[^16].  
+  + We don’t have data about physical activity. Regular exercise can reduce cholesterol levels and keep blood pressure at a normal level[^13].  
+  + Alcohol consumption. Excessive alcohol consumption can increase blood pressure[^14].
+  + Ethnicity. some ethnicities are at a higher risk of having a stroke partly due to having a higher risk of diabetes. Also Sickle cell disease (a disease which effects the red blood cells and increases risk of stroke) mostly effects people of African, Asian, Caribbean and Mediterranean origin[^15]. 
+  + Family history. it is common to see higher risk of stroke in people who have has a family member who also had a stroke.
+  + Second-hand smoking. Even if you do not smoke and you are around people who smoke, you are still inhaling the smoke and so getting similar long term effects as a smoker. Stroke risk is increased by second hand smoking by 20-30%[^16].  
 
 [^9]: Stroke Assosiation
 [^10]: NHS
@@ -97,7 +97,7 @@ Since we see a slight link found in our data set between high blood glucose and 
 [^8]: Diabetes UK
 
 
-With our model we were able to confirm that hypertension did increase risk, but we were wrong on BMI increasing risk the most, age is a bigger factor. The model is not good at predicting if people will have a stroke because the sample size is far too small to make accurate predictions. We think it’s better if our model has a higher sensitivity which reduced the number of false negatives (people being told that they won’t have a stroke when they will) instead of focusing on specificity that reduced false positives (those who are predicted to have a stroke but will not have one) because in a real-world application, false positives would at best cause panic whereas false negatives will cause people to be less aware of the risks. We are aware that having false positives is not ideal because we don’t want to cause people panic but our data on those who had a stroke is too small, so we had to decide on what we prioritize.  We are also aware that by doing this, it will decrease the accuracy but the results align with our goal of detecting strokes.  
+With our model we were able to confirm that hypertension did increase risk, but we were wrong on BMI increasing risk the most, age is a bigger factor. The model is not good at predicting if people will have a stroke because the sample size is far too small to make accurate predictions. We think it’s better if our model has a higher sensitivity which reduced the number of false negatives (people being told that they won’t have a stroke when they will) instead of focusing on specificity that reduced false positives (those who are predicted to have a stroke but will not have one) because in a real-world application, false positives would at best cause panic whereas false negatives will cause people to be less aware of the risks. We are aware that having false positives is not ideal because we don’t want to cause people panic but our data on those who had a stroke is too small, so we had to decide on what we prioritize.  We are also aware that by doing this, it will decrease the accuracy, but the results align with our goal of detecting strokes.  
 
 
 
