@@ -63,7 +63,7 @@ We did not remove gender despite the AIC being more preferable because by removi
 This gives us the sensitivity of the model as 62.5% and a specificity of 83.9%.[^5]  
 
 The accuracy of the model is 82.9% - which basically measures how well our model identified people who had a stroke and who did not.[^6] The AUC is 81.6% which is good because the model is better at distingishing between people who have had a stroke and those who have not. We also did a 10 fold cross validation to avoid over fitting, from which we got the average accuracy of our model as 95% and average AUC as 82.6%.
-** talk about accuracy being limited to test data. 
+
 
 [^5]: All figures given to 1 decimal place
 [^6]: Accuracy is measured on the data set aside for testing and is dependent on the cut-off probability which decides how the model distinguishes between people who had a stroke and those who did not. For this reason, the AUC is a better form of measuring the performance of the model since it does not depend on any cut-off value.
@@ -71,15 +71,24 @@ The accuracy of the model is 82.9% - which basically measures how well our model
 
 ## EVALUATION 
 
-Limitations on the Dataset: *justify why these are limitations with a smol description* 
-  + Don’t know medication, (anticoagulants, aspirin blood thinning drugs, combined contraceptive pill). 
-  + BMI is not an accurate reflection of a person’s health, especially cholesterol levels (high cholesterol is proven to increase risk of a stroke). 
-  + We don’t know other health conditions that can increase risk e.g. sickle cell disease.
-  + We don’t have data about physical activity. 
-  + Alcohol consumption. 
-  + Ethnicity.
-  + Family history.
-  + Second-hand smoking. 
+Limitations on the Dataset: 
+  + Don’t know medication, (anticoagulants, aspirin, blood thinning drugs, combined contraceptive pill, etc). Blood thining drugs can reduce risk of colts forming, this reduces stroke risk[^9]. The Combined Pill can couse high blood presser and increse risk of blood clots[^10]. 
+  + BMI is not an accurate reflection of a person’s health, especially **cholesterol levels** (high cholesterol is proven to increase risk of a stroke[^11]). 
+  + We don’t know other health conditions that can increase risk e.g. sickle cell disease[^12].
+  + We don’t have data about physical activity. Regular exersise can reduce cholesterol levels and keep blood pressure at a normal level[^13].  
+  + Alcohol consumption. Exessive alcohol consumption can increase blood pressure[^14].
+  + Ethnicity. some ethnicitieas are at a higher risk of having a stroke partly due to haveing a higher risk of diabities. Also Sickle cell diseas (a desies which effects the red blood cells and increases risk of stroke) mostly effects people of African, Asian, Caribbean and Mediterranean origin[^15]. 
+  + Family history. it is common st see higher risk of stroke in people who have has a family member who also had a stroke.
+  + Second-hand smoking. Even if you do not smoke and you are aound people who smoke, you are still inhaling the smoke and so geting similar long term effects as a smoker. Stroke risk is increased by sencond hand smoking by about 20-30%[^16].  
+
+[^9]: Stroke Assosiation
+[^10]: NHS
+[^11]: CDC, 2020 
+[^12]: CDC, 2020
+[^13]: NHS, 2021
+[^14]: NHS, 2021 
+[^15]: Stroke Assosiation
+[^16]: NHS Inform, 2020
 
 We were able to confirm our hypothesis about a link between age and stroke risk. This is explained by the fact that as age increases, people’s arteries become narrower and the walls become harder which increases the risk of them becoming blocked and this causes strokes[^7]. Therefore, we can confirm that age is a factor in stroke risk. 
 Since we see a slight link found in our data set between high blood glucose and stroke risk which also confirms our hypothesis and is accurate to what is known outside our dataset.  High blood glucose levels often cause diabetes which increases risk of cardiovascular disease which significantly increases risk of strokes[^8].
@@ -120,5 +129,12 @@ Diabeties.co.uk 2019, *Blood Sugar Level Ranges*, viewed on the 24th November 20
 
 Diabeties uk, *Diabetes and stroke*, viewed on the 24th November 2021, <https://www.diabetes.org.uk/guide-to-diabetes/complications/stroke>
 
+National Health Service 2020, *Combined Pill*, viewed on 2nd December 2021, <https://www.nhs.uk/conditions/contraception/combined-contraceptive-pill/>
+
+Stroke Assosiation, *Blood-thining Medication and Stroke*, viewd on 2nd of December 2021, <https://www.stroke.org.uk/what-is-stroke/blood-thinning-medication-and-stroke>
+
 Stroke Assosiation, *Stroke Risk Factors*, viewed on the 24th November 2021, <https://www.stroke.org.uk/what-is-stroke/are-you-at-risk-of-stroke> 
+
+NHS Inform 2020, *Second-Hand Smoke*, viewed on the 2nd of December 2021, <https://www.nhsinform.scot/healthy-living/stopping-smoking/reasons-to-stop/second-hand-smoke#:~:text=%20Some%20short-term%20effects%20from%20exposure%20to%20second-hand,and%20nasal%20irritation%204%20sore%20throat%20More%20>
+
 
