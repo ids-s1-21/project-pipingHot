@@ -28,13 +28,13 @@ We decided to remove all individuals from age 15 and below as we want to learn a
 
 ## FINDINGS 
 
-** “Average glucose level compared to stroke risk”**
+**“Average glucose level compared to stroke risk”**
 
 On this density graph the two ridges peak into different places. Firstly, they peak at an average glucose level of 80mg/dl, those who did not have a stroke peaked much higher than those who did have a stroke. The second peak peaked at an average glucose level of 210 mg/dl, those who did not have a stroke was a relatively low peak but those who did have a stroke leaked significantly higher than those who didn’t. This shows a possible link between high blood glucose levels (anything about 180 mg/dl is considered high) and an increased stroke risk[^4].
 
 [^4]: Diabetes.co.uk, 2019 
 	
-** “The Average Age of Patients who have had a Stroke”**
+**“The Average Age of Patients who have had a Stroke”**
 
 The average age of the individuals who had a stroke is 71 years old but the average age of those who did not have a stroke id 22 years younger than those who did at 49 years old. This finding is consistent with the known and proven link between increased age and a higher stroke risk. 
 
