@@ -15,7 +15,7 @@ A stroke is a potentially deadly condition where the blood supply is cut off fro
 
 [^1]: CDC, 2021 
 
-## HYPOTHISIS
+## HYPOTHESIS
 
 We expect to see a link between old age and stroke risk as it is an established factor in stroke risk[^2] Stroke Association, 2021. Also, a possible link should exist between blood glucose and stroke risk - as high blood glucose can cause other health issues known to lead to strokes[^3]. We expect the factors of BMI and hypertension to increase stroke risk the most. 
 
