@@ -189,17 +189,11 @@ median_age_stroke %>%
 
 ---
 
-class: center, middle, animated, slideInRight
+class: center, animated, slideInRight
 
 # Modelling
 
----
-
-class: center, animated, slideInRight
-
-# ROC and Accuracy
-
-```{r roc, echo=FALSE}
+```{r findings, echo=FALSE}
 cutoff_prob <- 0.1
 
 stroke_risk <- stroke_risk %>%
@@ -242,6 +236,25 @@ stroke_pred_accuracy <- stroke_pred %>%
     stroke_pred = if_else(.pred_1 > cutoff_prob, 1, 0)
     )
 
+tidy(stroke_fit) %>%
+  kable(col.names = c("Term","Estimate","STD Error", "Statistic","P Value")) %>%
+  kable_minimal()
+```
+
+---
+
+class: center, animated, slideInRight
+
+# ROC and Accuracy
+
+```{r roc, echo=FALSE}
+stroke_pred_accuracy %>%                
+  accuracy(truth = stroke, factor(stroke_pred)) %>%
+  kable(col.names = c("Metric","Estimator","Estimate")) %>%
+  kable_minimal()
+```
+<br><br>
+```{r accuracy, echo=FALSE}
 stroke_pred %>%
   roc_auc(
     truth = stroke,
@@ -249,14 +262,6 @@ stroke_pred %>%
     event_level = "second"
   ) %>%
   kable(col.names = c("Metric","Estimator","Estimate"), format = "html") %>%
-  kable_minimal()
-```
-<br><br>
-
-```{r accuracy, echo=FALSE}
-stroke_pred_accuracy %>%                
-  accuracy(truth = stroke, factor(stroke_pred)) %>%
-  kable(col.names = c("Metric","Estimator","Estimate")) %>%
   kable_minimal()
 ```
 <br><br>
@@ -399,7 +404,7 @@ stroke_pred_table <- stroke_pred %>%
 stroke_pred_table %>%
   filter(stroke == 1) %>%
   pivot_wider(names_from = stroke_pred, values_from = n) %>%
-  summarise(sensitivity = 1-(`1`/(`0`+`1`))) %>%
+  summarise(sensitivity = (`1`/(`0`+`1`))) %>%
   kable(col.names = c("Sensitivity"))
 ```
 <br><br>
@@ -407,7 +412,7 @@ stroke_pred_table %>%
 stroke_pred_table %>%
   filter(stroke == 0) %>%
   pivot_wider(names_from = stroke_pred, values_from = n) %>%
-  summarise(specificity = 1-(`0`/(`0`+`1`))) %>%
+  summarise(specificity = (`0`/(`0`+`1`))) %>%
   kable(col.names = c("Specificity"))
 ```
 

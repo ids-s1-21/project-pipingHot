@@ -114,9 +114,72 @@ class: animated, slideInRight
 
 ---
 
-class: center, middle, animated, slideInRight
+class: center, animated, slideInRight
 
 # Modelling
+
+&lt;table class=" lightable-minimal" style='font-family: "Trebuchet MS", verdana, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; STD Error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; P Value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -7.8656649 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.6469878 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -12.1573619 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; age &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0677620 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0066984 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10.1161565 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; hypertension &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5330848 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1942996 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.7436228 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0060765 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; heart_disease &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4260695 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2247816 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.8954821 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0580286 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; avg_glucose_level &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0044105 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0014293 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.0857287 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0020305 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; bmi &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0071874 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0133377 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5388782 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5899709 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; gender_Male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0775600 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1699086 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4564808 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.6480443 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 
 ---
 
@@ -134,14 +197,13 @@ class: center, animated, slideInRight
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; roc_auc &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; accuracy &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; binary &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.816468 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.8291517 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;br&gt;&lt;br&gt;
-
 &lt;table class=" lightable-minimal" style='font-family: "Trebuchet MS", verdana, sans-serif; margin-left: auto; margin-right: auto;'&gt;
  &lt;thead&gt;
   &lt;tr&gt;
@@ -152,9 +214,9 @@ class: center, animated, slideInRight
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; accuracy &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; roc_auc &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; binary &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.8291517 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.816468 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -257,7 +319,7 @@ class: center, animated, slideInRight
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 0.375 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.625 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -270,7 +332,7 @@ class: center, animated, slideInRight
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 0.1606023 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.8393977 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
