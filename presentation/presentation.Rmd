@@ -20,15 +20,16 @@ editor_options:
 ---
 
 ```{r load-packages, include = FALSE}
-# Add any additional packages you need to this chunk
 library(tidyverse)
 library(tidymodels)
-library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
 library(ggridges)
+library(broom)
 library(janitor)
-library(xaringanExtra)
+library(AICcmodavg)
+library(kableExtra)
+library(caret)
 #devtools::install_github("gadenbuie/xaringanExtra")
 ```
 
@@ -40,11 +41,12 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 ```{r load-data, include=FALSE}
 stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
 stroke_risk <- stroke_risk %>%
-  filter(age >= 16) %>%
+  filter(age >= 16, gender != "Other") %>%
   mutate(
-    hypertension = if_else(hypertension == 1, TRUE, FALSE),
-    heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
-    stroke = if_else(stroke == 1, TRUE, FALSE),
+    #hypertension = if_else(hypertension == 1, TRUE, FALSE),
+    #heart_disease = if_else(heart_disease == 1, TRUE, FALSE),
+    #stroke = if_else(stroke == 1, TRUE, FALSE),
+    #ever_married = if_else(ever_married == "Yes", TRUE, FALSE),
     work_type = case_when(
       work_type == "Never_worked" ~ "Never worked",
       work_type == "Govt_job" ~ "Govt job",
@@ -56,7 +58,7 @@ stroke_risk <- stroke_risk %>%
 clean_names()
 ```
 
-```{r include=FALSE, echo = FALSE}
+```{r styling, include=FALSE, echo=FALSE}
 style_xaringan(
   background_image = "fire.gif",
   background_position = "top right",
@@ -72,19 +74,26 @@ style_xaringan(
       "background-color" = "#000", 
       "color" = "#FFF",
       "font-size" = "30px"
+    ),
+    "th, td" = list(
+      "border" = "2px solid black",
+      "border-color" = "#FFF",
+      "background-color" = "#333",
+      "color" = "#FFF"
     )
   )
 )
-use_extra_styles(
-  hover_code_line = TRUE,
-  #mute_unhighlighted_code = TRUE
-)
-use_progress_bar(color = "#0051BA", location = "top")
 ```
 
 class: center, middle, animated, slideInRight
 
 ## Do factors such as age, hypertension and BMI increase the risk of a stroke?
+
+---
+
+class: center, middle, red, animated, slideInRight
+
+# Disclaimer, we are not medical professionals
 
 ---
 
@@ -103,11 +112,20 @@ class: center, middle, animated, slideInRight
 # Introductory plots
 ---
 
-class: center, middle, animated, slideInRight
+class: animated, slideInRight
 
 ## Average Blood Glucose Level Split by Stroke
 
-```{r plot-1, echo = FALSE}
+.left-column[
+* First peak at 80mg/dl
+<br><br><br>
+* Second peak at 210mg/dl
+<br><br><br>
+* Proven link
+]
+
+.right-column[
+```{r plot-1, echo=FALSE, cache=TRUE}
 stroke_risk %>%
   mutate(stroke = if_else(stroke == TRUE, "Yes", "No"), stroke = fct_rev(stroke)) %>%
   ggplot(aes(x = avg_glucose_level, y = stroke, fill = stroke)) +
@@ -119,21 +137,32 @@ stroke_risk %>%
   scale_fill_manual(values = c("Purple", "Orange")) +
   theme(
     legend.position = "none",
-    text = element_text(colour = "white"),
+    text = element_text(colour = "white", size = 15),
     rect = element_rect(fill = "black", colour = "white"),
     panel.background = element_rect(fill = "black"),
     panel.grid.minor = element_line(colour = "white"),
     axis.text = element_text(colour = "white")
   )
 ```
-
+]
 ---
 
-class: center, middle, animated, slideInRight
+class: animated, slideInRight
 
 ## The Average Age of Patients who have had a Stroke
 
-```{r plot-2, echo = FALSE}
+.left-column[
+* Average of 71 for individuals who have had a stroke
+<br><br>
+* Average of 49 for individuals who haven't had a stroke
+<br><br>
+* Difference of 22 years
+<br><br>
+* Proven link
+]
+
+.right-column[
+```{r plot-2, echo = FALSE, cache=TRUE}
 median_age_stroke <- stroke_risk %>%
   mutate(stroke = if_else(stroke == TRUE, "Yes", "No"), stroke = fct_rev(stroke)) %>%
   group_by(stroke) %>%
@@ -150,151 +179,244 @@ median_age_stroke %>%
   ) +
   theme(
     legend.position = "none",
-    text = element_text(colour = "white"),
+    text = element_text(colour = "white", size = 15),
     rect = element_rect(fill = "black", colour = "white"),
     panel.background = element_rect(fill = "black"),
     axis.text = element_text(colour = "white")
   )
 ```
-
-class: inverse, middle, center
-
-# Using xaringan
-
----
-
-# xaringan
-
-- The presentation is created using the `xaringan` package
-
-- Use `---` to separate slides and `--` for incremental builds
-
---
-
-- Like this
-
----
-
-# Layouts
-
-You can use plain text
-
-- or bullet points
-
-.pull-left[
-or text in two columns $^*$
-]
-.pull-right[
-- like
-- this
-]
-
-.footnote[
-[*] And add footnotes
 ]
 
 ---
 
-# Code
+class: center, middle, animated, slideInRight
 
-```{r boring-regression}
-# a boring regression
-model <- lm(dist ~ speed, data = cars)
-tidy(model)
-glance(model)
+# Modelling
+
+---
+
+class: center, animated, slideInRight
+
+# ROC and Accuracy
+
+```{r roc, echo=FALSE}
+cutoff_prob <- 0.1
+
+stroke_risk <- stroke_risk %>%
+    filter(!(is.na(bmi))) %>%
+    mutate(stroke = factor(stroke)) 
+
+logit2prob <- function(logit){
+  odds <- exp(logit)
+  prob <- (odds / (1 + odds)) * 100
+  return(prob)
+}
+
+set.seed(16)
+
+stroke_split <- initial_split(stroke_risk, prop = 0.8)
+
+train_data <- training(stroke_split)
+test_data  <- testing(stroke_split)
+
+stroke_rec <- recipe(stroke  ~ ., data = train_data) %>%
+  step_rm(id, work_type, residence_type, smoking_status, ever_married) %>%
+  step_dummy(all_nominal(), -all_outcomes()) %>%
+  step_zv(all_predictors())
+
+stroke_fit_base <- logistic_reg() %>%
+  set_engine("glm")
+
+stroke_wflow <- workflow() %>%
+  add_model(stroke_fit_base) %>%
+  add_recipe(stroke_rec)
+
+stroke_fit <- stroke_wflow %>%
+  fit(data = train_data)
+
+stroke_pred <- predict(stroke_fit, test_data, type = "prob") %>% 
+  bind_cols(test_data %>% select(stroke))
+
+stroke_pred_accuracy <- stroke_pred %>% 
+  mutate(
+    stroke_pred = if_else(.pred_1 > cutoff_prob, 1, 0)
+    )
+
+stroke_pred %>%
+  roc_auc(
+    truth = stroke,
+    .pred_1,
+    event_level = "second"
+  ) %>%
+  kable(col.names = c("Metric","Estimator","Estimate"), format = "html") %>%
+  kable_minimal()
+```
+<br><br>
+
+```{r accuracy, echo=FALSE}
+stroke_pred_accuracy %>%                
+  accuracy(truth = stroke, factor(stroke_pred)) %>%
+  kable(col.names = c("Metric","Estimator","Estimate")) %>%
+  kable_minimal()
+```
+<br><br>
+```{r folds, echo=FALSE}
+folds <- vfold_cv(train_data, v = 10)
+
+stroke_fit_rs <- stroke_wflow %>%
+  fit_resamples(folds)
+
+collect_metrics(stroke_fit_rs) %>%
+  select(.metric, .estimator, mean) %>%
+  kable(col.names = c("Metric", "Estimator", "Mean")) %>%
+  kable_minimal()
+```
+---
+
+class: center, animated, slideInRight
+
+# AIC
+
+```{r aic, echo=FALSE}
+stroke_rec_2 <- recipe(stroke  ~ ., data = train_data) %>%
+  step_rm(id, residence_type, smoking_status, ever_married) %>%
+  step_dummy(all_nominal(), -all_outcomes()) %>%
+  step_zv(all_predictors())
+
+stroke_wflow_2 <- workflow() %>%
+  add_model(stroke_fit_base) %>%
+  add_recipe(stroke_rec_2)
+
+stroke_fit_2 <- stroke_wflow_2 %>%
+  fit(data = train_data)
+
+stroke_rec_3 <- recipe(stroke  ~ ., data = train_data) %>%
+  step_rm(id, work_type, smoking_status, ever_married) %>%
+  step_dummy(all_nominal(), -all_outcomes()) %>%
+  step_zv(all_predictors())
+
+stroke_wflow_3 <- workflow() %>%
+  add_model(stroke_fit_base) %>%
+  add_recipe(stroke_rec_3)
+
+stroke_fit_3 <- stroke_wflow_3 %>%
+  fit(data = train_data)
+
+stroke_rec_4 <- recipe(stroke  ~ ., data = train_data) %>%
+  step_rm(id, work_type, residence_type, ever_married) %>%
+  step_dummy(all_nominal(), -all_outcomes()) %>%
+  step_zv(all_predictors())
+
+stroke_wflow_4 <- workflow() %>%
+  add_model(stroke_fit_base) %>%
+  add_recipe(stroke_rec_4)
+
+stroke_fit_4 <- stroke_wflow_4 %>%
+  fit(data = train_data)
+
+stroke_rec_5 <- recipe(stroke  ~ ., data = train_data) %>%
+  step_rm(id, work_type, residence_type, smoking_status) %>%
+  step_dummy(all_nominal(), -all_outcomes()) %>%
+  step_zv(all_predictors())
+
+stroke_wflow_5 <- workflow() %>%
+  add_model(stroke_fit_base) %>%
+  add_recipe(stroke_rec_5)
+
+stroke_fit_5 <- stroke_wflow_5 %>%
+  fit(data = train_data)
+
+stroke_rec_6 <- recipe(stroke  ~ ., data = train_data) %>%
+  step_rm(id, work_type, residence_type, smoking_status, ever_married, gender) %>%
+  step_dummy(all_nominal(), -all_outcomes()) %>%
+  step_zv(all_predictors())
+
+stroke_wflow_6 <- workflow() %>%
+  add_model(stroke_fit_base) %>%
+  add_recipe(stroke_rec_6)
+
+stroke_fit_6 <- stroke_wflow_6 %>%
+  fit(data = train_data)
+
+mdoels = list(stroke_fit, stroke_fit_2, stroke_fit_3, stroke_fit_4, stroke_fit_5, stroke_fit_6)
+
+AIC_determiner <- function(x) 
+{
+ glance(x)$AIC 
+}
+
+tibble(
+  Model = c(
+    "Base", 
+    "Base & Worktype", 
+    "Base & Residence Type", 
+    "Base & Smoking Status", 
+    "Base & Ever Married", 
+    "Base without Gender"),
+  AIC = c(
+    AIC_determiner(stroke_fit),
+    AIC_determiner(stroke_fit_2),
+    AIC_determiner(stroke_fit_3),
+    AIC_determiner(stroke_fit_4),
+    AIC_determiner(stroke_fit_5),
+    AIC_determiner(stroke_fit_6)
+  )
+) %>%
+kable(col.names = c("Model", "AIC"), format = "html")
 ```
 
 ---
 
-# Plots
+class: center, animated, slideInRight
 
-```{r recode-species, echo = FALSE}
-# In this chunk I'm doing a bunch of analysis that I don't want to present 
-# in my slides. But I need the resulting data frame for a plot I want to present.
-iris_modified <- iris %>%
-  mutate(Species = fct_other(Species, keep = "setosa"))
+# Sensitivity and Specificity
+
+```{r prediction, echo=FALSE}
+stroke_pred %>%
+  mutate(
+    stroke      = if_else(stroke == 1, 
+                          "Person has had a stroke", 
+                          "Person has not had a stroke"),
+    stroke_pred = if_else(.pred_1 > cutoff_prob, 
+                          "It is predicted that the person has had a stroke ", 
+                          "It is predicted that the person has not had a stroke")
+    ) %>%
+  count(stroke_pred, stroke) %>%
+  pivot_wider(names_from = stroke, values_from = n) %>%
+  kable(col.names = c("Prediction", "Person has had a stroke", "Person has not had a stroke"), format = "html") %>%
+  kable_minimal()
 ```
-
-```{r plot-iris, echo = FALSE}
-# Code hidden with echo = FALSE
-# Uses modified iris dataset from previous chunk
-# Play around with height and width until you're happy with the look
-ggplot(data = iris_modified, mapping = aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
-  geom_point() + 
-  theme_minimal() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
+<br><br>
+```{r sensitivity, echo=FALSE}
+stroke_pred_table <- stroke_pred %>%
+  mutate(
+    stroke      = if_else(stroke == 1, "1","0"),
+    stroke_pred = if_else(.pred_1 > cutoff_prob, "1", "0"),
+    stroke = factor(stroke),
+    stroke_pred = factor(stroke_pred)
+    ) %>%
+  count(stroke_pred, stroke)
+stroke_pred_table %>%
+  filter(stroke == 1) %>%
+  pivot_wider(names_from = stroke_pred, values_from = n) %>%
+  summarise(sensitivity = 1-(`1`/(`0`+`1`))) %>%
+  kable(col.names = c("Sensitivity"))
+```
+<br><br>
+```{r specificity, echo=FALSE}
+stroke_pred_table %>%
+  filter(stroke == 0) %>%
+  pivot_wider(names_from = stroke_pred, values_from = n) %>%
+  summarise(specificity = 1-(`0`/(`0`+`1`))) %>%
+  kable(col.names = c("Specificity"))
 ```
 
 ---
 
-## Plot and text
+class: center, animated, slideInRight
 
-.pull-left[
-- Some text
-- goes here
-]
-.pull-right[
-```{r warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
-# see how I changed out.width and fig.width from defaults
-# to make the figure bigger
-ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
-  geom_boxplot() +
-  theme_minimal()
+#Thank you
+
+```{r meme, echo = FALSE, out.width = "40%", fig.align = "center"}
+include_graphics("https://cdn.discordapp.com/attachments/897493305317793882/915690188120924191/model_memev2.jpg")
 ```
-]
-
----
-
-# Tables
-
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
-
-```{r iris-table, echo = FALSE}
-kable(head(iris), format = "html")
-```
-
----
-
-# Images
-
-```{r castle, echo = FALSE, out.width = "60%", fig.align = "center", fig.cap = "Image credit: Photo by Jörg Angeli on Unsplash."}
-include_graphics("https://images.unsplash.com/photo-1535448033526-c0e85c9e6968?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80")
-```
-
-Or you can also include a full page image. See next slide.
-
----
-
-background-image: url(https://images.unsplash.com/photo-1535448033526-c0e85c9e6968?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80)
-
----
-
-# Math Expressions
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. &#36;\alpha+\beta$ renders $\alpha+\beta$. You can use the display style with double dollar signs:
-
-```
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-```
-
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-
-Limitations:
-
-1. The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
-
-1. There should not be spaces after the opening `$` or before the closing `$`.
-
-1. Math does not work on the title slide (see [#61](https://github.com/yihui/xaringan/issues/61) for a workaround).
-
----
-
-# Feeling adventurous?
-
-- Want to find out more about `xaringan`? See https://slides.yihui.name/xaringan/#1.
-
-- You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
-
-- But some of you might want to play around with slide styling. The 
-`xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
-
-- And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.

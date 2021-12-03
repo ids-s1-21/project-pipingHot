@@ -250,9 +250,3 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
   color: #FFF;
   font-size: 30px;
 }
-th, td {
-  border: 2px solid black;
-  border-color: #FFF;
-  background-color: #333;
-  color: #FFF;
-}
