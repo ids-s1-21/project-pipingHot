@@ -9,12 +9,14 @@ editor_options:
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
+library(rsample)
+library(knitr)
+library(tidymodels)
 library(janitor)
-library(AICcmodavg)
 ```
 
 
-```{r the modelling man}
+```{r model testing}
 stroke_risk <- read.csv(here::here("data/healthcare-dataset-stroke-data.csv"))
 
 stroke_risk <- stroke_risk %>%                          #Cleanup by Alex
@@ -46,14 +48,13 @@ stroke_split <- initial_split(stroke_risk, prop = 0.8) #Splitting 80% for traini
 train_data <- training(stroke_split)
 test_data  <- testing(stroke_split)
 
-stroke_rec <- recipe(stroke  ~ ., data = train_data) %>%
+stroke_rec <- recipe(stroke  ~ ., data = train_data) %>%    
   step_rm(id, work_type, residence_type, smoking_status, ever_married) %>%
   step_dummy(all_nominal(), -all_outcomes()) %>%
   step_zv(all_predictors())
 
 stroke_fit_base <- logistic_reg() %>%
   set_engine("glm")
-
 
 stroke_wflow <- workflow() %>%
   add_model(stroke_fit_base) %>%
@@ -65,19 +66,22 @@ stroke_fit <- stroke_wflow %>%
 stroke_pred <- predict(stroke_fit, test_data, type = "prob") %>% 
   bind_cols(test_data %>% select(stroke))
 
-stroke_pred_accuracy <- stroke_pred %>%  #for accuracy 
+
+cutoff_prob <- 0.1                       # low cut-off probability in order to reduce the false negative rate (i.e having strokes go undetected)
+
+stroke_pred_accuracy <- stroke_pred %>%  # for accuracy 
   mutate(
     stroke_pred = if_else(.pred_1 > cutoff_prob, 1, 0)
     )
 
-stroke_pred %>%
+stroke_pred %>%                          # gets a value for the area under the ROC curve 
   roc_auc(
     truth = stroke,
     .pred_1,
     event_level = "second"
   ) 
 
-stroke_pred %>%
+stroke_pred %>%                         # plots the ROC curve  
   roc_curve(
     truth = stroke,
     .pred_1,
@@ -86,8 +90,8 @@ stroke_pred %>%
   autoplot()
 
 
-cutoff_prob <- 0.1
-stroke_pred %>%
+
+stroke_pred %>%                                  # prediction model 
   mutate(
     stroke      = if_else(stroke == 1, 
                           "Person has had a stroke", 
@@ -108,18 +112,19 @@ stroke_pred_accuracy %>%
 #82.9% accuracy 
 
 
-folds <- vfold_cv(train_data, v = 10)   #for cross-validation
+folds <- vfold_cv(train_data, v = 10)   # for cross-validation
 
-stroke_fit_rs <- stroke_wflow %>%
+stroke_fit_rs <- stroke_wflow %>%       # use collect_metrics(stroke_fit_rs) to see average accuracy/AUC
   fit_resamples(folds)
+
+
+# Use the code below to get AIC values for various models 
 
 # AIC_determiner <- function(x) 
 # {
 #   glance(x)$AIC 
 # }
-# 
-AIC_determiner(stroke_fit_base)
-
+# AIC_determiner(stroke_fit_base)
 # map(models,AIC_determiner)
 ```
 
