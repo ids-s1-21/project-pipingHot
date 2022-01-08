@@ -4,7 +4,7 @@ by pipingHot🔥
 
 # Summary
 
-## **DISCLAIMER: WE ARE NOT MEDICAL PROFESSIONALS!!!**
+## **DISCLAIMER: WE ARE NOT MEDICAL PROFESSIONALS!**
 
 Do factors such as age, blood glucose levels, gender, hypertension, BMI and heart disease increase the risk of a stroke? We aim to see if these factors have any effect on stroke risk. 
 We got the dataset from the Kaggle website. The data was collected confidentially because it concerns health of real people so the details about its collection have not been published. Each case is a different individual. There are 12 variables ([See data dictionary](https://github.com/ids-s1-21/project-pipingHot/tree/main/data)). 
@@ -42,7 +42,7 @@ The average age of the individuals who had a stroke is 71 years old but the aver
 
 We expected a high BMI and having hypertension to increase stroke risk the most. As our model is logistic, we can’t give exact figures, but we found that age and hypertension increase stroke risk the most. 
 
-The base model uses the variables: age, hypertension, heart disease, gender, BMI and average glucose level. AIC (Akaike Information Criterion) helps decide the least amount of variables needed to explain the greatest amount of variation - the lower AIC value the more preferable the model. Since the AIC penalises the model with more variables but explains the same amount of variation. 
+The base model uses the variables: age, hypertension, heart disease, gender, BMI and average glucose level. We used the Akaike Information Criterion (AIC) which basically is used to find the least amount of variables needed to explain the greatest amount of variation in the data - essentially if a new predictor is added and it does not contribute much towards explaining the variation - AIC penalizes that model and the AIC value is greater. So, we want the lowest AIC value ideally and as you can see the base model is doing well in that regard.
 
 |        Model          |  AIC |
 |-----------------------|------|
@@ -61,6 +61,8 @@ We did not remove gender despite the AIC being preferable because by removing ge
 |Predicted to not have a stroke |        15         |          669          |
 
 This gives us the sensitivity of the model as 62.5% and a specificity of 83.9%.[^5]  
+
+We decided on a low cut-off probability in order to reduce the false negative rate (i.e having strokes go undetected) even though it meant having a higher false positive rate. (i.e predicting a stroke when that's not the case). This is simply because the cost of a false negative result as compared to a false positive result is significantly higher - as an undetected stroke could potentially lead to death whereas a wrongly predicted stroke would at best cause panic. 
 
 The accuracy of the model is 82.9% - which basically measures how well our model identified people who had a stroke and who did not.[^6] The AUC is 81.6% which is good because the model is better at distinguishing between people who have had a stroke and those who have not. We also did a 10 fold cross validation to avoid over fitting, from which we got the average accuracy of our model as 95% and average AUC as 82.6%.
 
