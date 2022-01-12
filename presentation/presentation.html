@@ -3,8 +3,8 @@
   <head>
     <title>Modelling of Strokes</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Pipping Hot   Ishan, Anwen and Alex" />
-    <meta name="date" content="2022-01-08" />
+    <meta name="author" content="Piping Hot   Ishan, Anwen and Alex" />
+    <meta name="date" content="2022-01-12" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <script src="libs/kePrint-0.0.1/kePrint.js"></script>
     <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
@@ -17,9 +17,9 @@ class: center, middle, inverse, title-slide
 
 # Modelling of Strokes
 ## With respect to health and lifestyle
-### Pipping Hot <br> Ishan, Anwen and Alex
+### Piping Hot <br> Ishan, Anwen and Alex
 ### University of Edinburgh
-### 2022-01-08
+### 2022-01-12
 
 ---
 
@@ -31,16 +31,26 @@ class: center, middle, inverse, title-slide
 
 
 
-
-class: center, middle, animated, slideInRight
-
-## Do factors such as age, hypertension and BMI increase the risk of a stroke?
-
----
 
 class: center, middle, red, animated, slideInRight
 
 # Disclaimer, we are not medical professionals
+
+---
+
+class: animated, slideInRight
+
+# What is a stroke?
+
+## A stroke is a potentially deadly condition where the blood supply is cut off from the brain.
+
+---
+
+class: animated, slideInRight
+
+# Hypothesis
+
+## Do factors such as age, hypertension and BMI increase the risk of a stroke?
 
 ---
 
@@ -72,9 +82,24 @@ glimpse(stroke_risk)
 
 ---
 
+class: animated, slideInRight
+
+# Method
+
+* Remove all individuals from age 15 and below to investigate stoke risk in adults.
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+* Simple density graph to see what value of blood glucose the number of stokes increases at.
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+* Simple statistics to find the average age of people having had stroke in our dataset. 
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+* Logistic regression model using; age, heart disease, hypertension, average blood glucose level, gender and BMI.
+
+---
+
 class: center, middle, animated, slideInRight
 
 # Introductory plots
+
 ---
 
 class: animated, slideInRight
@@ -82,11 +107,13 @@ class: animated, slideInRight
 ## Average Blood Glucose Level Split by Stroke
 
 .left-column[
-* First peak at 80mg/dl
-&lt;br&gt;&lt;br&gt;&lt;br&gt;
-* Second peak at 210mg/dl
-&lt;br&gt;&lt;br&gt;&lt;br&gt;
-* Proven link
+* Two ridges peak at two different places.
+&lt;br&gt;&lt;br&gt;
+* First peak at an average glucose level of 80mg/dl, those who did not have a stroke peaked higher.
+&lt;br&gt;&lt;br&gt;
+* Second peak peaked at an average glucose level of 210 mg/dl, those who had a stroke peaked higher.
+&lt;br&gt;&lt;br&gt;
+* Possible link between high blood glucose levels and an increased stroke risk4.
 ]
 
 .right-column[
@@ -99,13 +126,13 @@ class: animated, slideInRight
 ## The Average Age of Patients who have had a Stroke
 
 .left-column[
-* Average of 71 for individuals who have had a stroke
+* Average of 71 for individuals who have had a stroke.
 &lt;br&gt;&lt;br&gt;
-* Average of 49 for individuals who haven't had a stroke
+* Average of 49 for individuals who haven't had a stroke.
 &lt;br&gt;&lt;br&gt;
-* Difference of 22 years
+* 22 year difference.
 &lt;br&gt;&lt;br&gt;
-* Proven link
+* Consistent with the known and proven link between increased age and a higher stroke risk.
 ]
 
 .right-column[
@@ -114,9 +141,13 @@ class: animated, slideInRight
 
 ---
 
-class: center, animated, slideInRight
+class: animated, slideInRight
 
 # Modelling
+
+* We expected a high BMI and having hypertension to increase stroke risk the most. 
+
+* We found that age and hypertension increase stroke risk the most.
 
 &lt;table class=" lightable-minimal" style='font-family: "Trebuchet MS", verdana, sans-serif; margin-left: auto; margin-right: auto;'&gt;
  &lt;thead&gt;
@@ -183,10 +214,19 @@ class: center, animated, slideInRight
 
 ---
 
-class: center, animated, slideInRight
+class: animated, slideInRight
 
 # ROC and Accuracy
 
+.pull-left[
+* The accuracy of the model is 82.9% - which measures how well our model identified if people had a stroke or not.
+&lt;br&gt;&lt;br&gt;
+* The AUC is 81.6% meaning the model is better at distinguishing between people who have had a stroke and those who have not.
+&lt;br&gt;&lt;br&gt;
+* We also did 10 fold cross validation to avoid over fitting, we got the average accuracy of as 95% and average AUC as 82.6%.
+]
+
+.pull-right[
 &lt;table class=" lightable-minimal" style='font-family: "Trebuchet MS", verdana, sans-serif; margin-left: auto; margin-right: auto;'&gt;
  &lt;thead&gt;
   &lt;tr&gt;
@@ -242,12 +282,24 @@ class: center, animated, slideInRight
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+]
 ---
 
-class: center, animated, slideInRight
+class: animated, slideInRight
 
 # AIC
 
+.pull-left[
+* Base model uses the variables: age, hypertension, heart disease, gender, BMI and average glucose level.
+&lt;br&gt;&lt;br&gt;
+* We used the Akaike Information Criterion (AIC) to find the least amount of variables needed to explain the greatest amount of variation in the data.
+&lt;br&gt;&lt;br&gt;
+* We found that the base model performed well.
+&lt;br&gt;&lt;br&gt;
+* We did not remove gender despite the AIC being preferable because the sensitivity of our model fell by 32.5%.
+]
+
+.pull-left[
 &lt;table&gt;
  &lt;thead&gt;
   &lt;tr&gt;
@@ -282,12 +334,16 @@ class: center, animated, slideInRight
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-
+]
 ---
 
-class: center, animated, slideInRight
+class: animated, slideInRight
 
 # Sensitivity and Specificity
+
+* We decided on a low cut-off probability to reduce the false negative rate. 
+&lt;br&gt;
+* This is because the cost of a false negative result as compared to a false positive result is significantly higher
 
 &lt;table class=" lightable-minimal" style='font-family: "Trebuchet MS", verdana, sans-serif; margin-left: auto; margin-right: auto;'&gt;
  &lt;thead&gt;
@@ -299,18 +355,18 @@ class: center, animated, slideInRight
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; It is predicted that the person has had a stroke &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Predicted to have a stroke &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 25 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 128 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; It is predicted that the person has not had a stroke &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Predicted to not have a stroke &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 15 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 669 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;br&gt;&lt;br&gt;
+&lt;br&gt;
 &lt;table&gt;
  &lt;thead&gt;
   &lt;tr&gt;
@@ -323,7 +379,7 @@ class: center, animated, slideInRight
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;br&gt;&lt;br&gt;
+&lt;br&gt;
 &lt;table&gt;
  &lt;thead&gt;
   &lt;tr&gt;
@@ -339,11 +395,63 @@ class: center, animated, slideInRight
 
 ---
 
-class: center, animated, slideInRight
+class: animated, slideInRight
 
-#Thank you
+# Limitations
 
-&lt;img src="https://cdn.discordapp.com/attachments/897493305317793882/915690188120924191/model_memev2.jpg" width="40%" style="display: block; margin: auto;" /&gt;
+* BMI is not an accurate reflection of a person's health.
+
+* We don’t have data on
+
+  * other health conditions that can increase risk e.g. sickle cell disease.
+  
+  * what medication the participants are on.
+
+  * physical activity.
+
+  * alcohol consumption.
+
+  * ethnicity.
+
+  * family history of strokes.
+
+  * second-hand smoking exposure.
+  
+---
+
+class: animated, slideInRight
+
+# Evaluation
+
+* We were able to confirm our hypothesis about a link between age and stroke risk.
+&lt;br&gt;&lt;br&gt;
+* This is because as age increases, arteries become narrower and the walls become harder which increases the risk of them becoming blocked causing strokes.
+&lt;br&gt;&lt;br&gt;
+* Therefore, we can confirm that age is a factor in stroke risk.
+&lt;br&gt;&lt;br&gt;
+* Since we see a slight link in our dataset between high blood glucose and stroke risk this also confirms our hypothesis and confirms what is known outside our dataset. High blood glucose levels often cause diabetes which increases risk of cardiovascular disease which significantly increases risk of strokes.
+
+---
+
+class: animated, slideInRight
+
+# Evaluation
+
+* We were able to confirm that hypertension did increase risk, but we were wrong on BMI increasing risk the most, age is a bigger factor.
+&lt;br&gt;&lt;br&gt;
+* The model struggles at predicting if people will have a stroke because the sample size is far too small to make accurate predictions.
+&lt;br&gt;&lt;br&gt;
+* We think it’s better if our model has a higher sensitivity to reduce the false negatives instead of focusing on specificity to reduce the false positives because in a real-world application, false positives would at best cause panic whereas false negatives will cause people to be less aware of the risks.
+&lt;br&gt;&lt;br&gt;
+* We are aware that false positives are not ideal because we don’t want to cause people panic but our data on those who had a stroke is too small, so we had to decide what we prioritize.
+&lt;br&gt;&lt;br&gt;
+* We are also aware that by doing this, it will decrease the accuracy, but it aligns with our goal of detecting strokes.
+
+---
+
+class: center, middle, animated, slideInRight
+
+# Thank you
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
